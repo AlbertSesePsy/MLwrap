@@ -2,7 +2,7 @@ Package: MLwrap
 Title: Machine Learning Modelling for Everyone
 Version: 0.1.1
 Authors@R: c(person(given   = "Javier", family = "Martínez García",
-                    role    = c("aut", "cre"), 
+                    role    = "aut", 
                     email   = "javier.nezcia@gmail.com",
                     comment = c(ORCID = "0009-0007-7861-5274")),
              person(given = "Juan José", family = "Montaño Moreno",

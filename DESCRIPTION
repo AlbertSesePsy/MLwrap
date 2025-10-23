@@ -1,0 +1,80 @@
+Package: MLwrap
+Title: Machine Learning Modelling for Everyone
+Version: 0.2.1
+Authors@R: c(person(given   = "Javier", family = "Martínez García",
+                    role    = "aut", 
+                    email   = "javier.nezcia@gmail.com",
+                    comment = c(ORCID = "0009-0007-7861-5274")),
+             person(given = "Juan José", family = "Montaño Moreno",
+                    role  = "ctb", 
+                    email = "juanjo.montano@uib.es",
+                    comment = c(ORCID = "0000-0002-1116-1964")),
+             person(given = "Albert", family = "Sesé",
+                    role  = c("cre", "ctb"), 
+                    email = "albert.sese@uib.es",
+                    comment = c(ORCID = "0000-0003-3771-1749")))
+Description: A minimal library specifically designed to make the estimation of
+             Machine Learning (ML) techniques as easy and accessible as possible,
+             particularly within the framework of the Knowledge Discovery in
+             Databases (KDD) process in data mining. The package provides
+             essential tools to structure and execute each stage of a predictive
+             or classification modeling workflow, aligning closely with the
+             fundamental steps of the KDD methodology, from data selection and
+             preparation, through model building and tuning, to the
+             interpretation and evaluation of results using Sensitivity Analysis.
+             The 'MLwrap' workflow is organized into four core steps;
+             preprocessing(), build_model(), fine_tuning(), and
+             sensitivity_analysis(). These steps correspond, respectively, to
+             data preparation and transformation, model construction,
+             hyperparameter optimization, and sensitivity analysis. The user can
+             access comprehensive model evaluation results including fit
+             assessment metrics, plots, predictions, and performance diagnostics
+             for ML models implemented through 'Neural Networks', 'Random Forest',
+             'XGBoost' (Extreme Gradient Boosting), and 'Support Vector Machines'
+             (SVM) algorithms. By streamlining these phases, 'MLwrap' aims to
+             simplify the implementation of ML techniques, allowing analysts and
+             data scientists to focus on extracting actionable insights and
+             meaningful patterns from large datasets, in line with the objectives
+             of the KDD process.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: 
+    R (>= 4.1.0)
+Imports: 
+    R6,
+    tidyr,
+    magrittr,
+    dials,
+    parsnip,
+    recipes,
+    rsample,
+    tune,
+    workflows,
+    yardstick,
+    vip,
+    glue,
+    innsight,
+    fastshap,
+    DiagrammeR,
+    ggbeeswarm,
+    ggplot2,
+    sensitivity,
+    dplyr,
+    rlang,
+    tibble,
+    patchwork,
+    cli,
+    scales
+Suggests: 
+    testthat (>= 3.0.0),
+    torch,
+    brulee,
+    ranger,
+    kernlab,
+    xgboost
+Config/testthat/edition: 3
+URL: https://github.com/AlbertSesePsy/MLwrap
+BugReports: https://github.com/AlbertSesePsy/MLwrap/issues
+LazyData: true

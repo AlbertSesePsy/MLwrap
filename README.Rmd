@@ -1,0 +1,84 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# MLwrap
+
+A minimalistic library specifically designed to make the estimation of MachineLearning (ML)
+techniques as easy and accessible as possible, particularly within the framework of the
+Knowledge Discovery in Databases (KDD) process in data mining. The package provides all the
+essential tools needed to efficiently structure and execute each stage of a predictive or
+classification modeling workflow, aligning closely with the fundamental steps of the KDD
+methodology, from data selection and preparation, through model building and tuning, to the
+interpretation and evaluation of results using Sensitivity Analysis. The 'MLwrap' workflow is
+organized into four core steps; preprocessing(), build_model(), fine_tuning(), and sensitivity_analysis().
+These steps correspond, respectively, to data preparation and transformation, model construction,
+hyperparameter optimization, and sensitivity analysis. The user can access comprehensive model
+evaluation results including fit assessment metrics, plots, predictions, and performance diagnostics
+for ML models implemented through Neural Networks, Support Vector Machines, Random Forest, and XGBoost
+algorithms. By streamlining these phases,'MLwrap' aims to simplify the implementation of ML techniques,
+allowing analysts and data scientists to focus on extracting actionable insights and meaningful patterns
+from large datasets, in line with the objectives of the KDD process.
+
+## Installation
+
+You can install the development version of MLwrap from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("JMartinezGarcia/MLwrap")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(MLwrap)
+## basic example code
+
+formula_reg <- "psych_well ~ age + gender + socioec_status + emot_intel + depression"
+
+analysis_object <- preprocessing(sim_data, formula_reg, task = "regression") |>
+
+                   build_model(model_name = "Random Forest",
+                                       hyperparameters = list(trees = 150)) |>
+
+                   fine_tuning(tuner = "Bayesian Optimization", metrics = "rmse") |>
+   
+                   sensitivity_analysis(methods = c("PFI", "SHAP"), 
+                                        metric = "rsq")
+
+### Tuning Results
+
+analysis_object |>
+  plot_tuning_results()
+
+### Evaluation Plots
+
+analysis_object |>
+  plot_residuals_distribution() |>
+  plot_scatter_residuals() 
+
+### Sensitivity analysis
+
+analysis_object |>
+  plot_pfi() |>
+  plot_shap()
+
+table_pfi <- table_pfi_results(analysis_object)
+
+show(table_pfi)
+
+```

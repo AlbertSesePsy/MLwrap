@@ -32,7 +32,7 @@ You can install the development version of MLwrap from
 
 ``` r
 # install.packages("pak")
-pak::pak("JMartinezGarcia/MLwrap")
+pak::pak("AlbertSesePsy/MLwrap")
 ```
 
 ## Example
@@ -56,7 +56,7 @@ library(MLwrap)
 #> 
 #> *****************************************************************************
 #> 
-#>       MLwrap v0.1.0: **Start simple, scale smart**
+#>       MLwrap v0.2.1: **Start simple, scale smart**
 #> 
 ## basic example code
 

@@ -2,7 +2,6 @@
 
 S3method(summary,AnalysisObject)
 export("%>%")
-export(MLwrap_tutorial)
 export(build_model)
 export(fine_tuning)
 export(plot_calibration_curve)

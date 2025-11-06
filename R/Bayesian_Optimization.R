@@ -1,11 +1,9 @@
-tune_models_bayesian <- function(analysis_object, sampling_method, metrics, seed = 123, verbose = TRUE){
+tune_models_bayesian <- function(analysis_object, sampling_method, metrics, seed = 123){
 
   bayes_control <-
     tune::control_bayes(
       no_improve    = 5L,
       time_limit    = 20,
-      verbose       = verbose,
-      verbose_iter  = verbose,
       save_pred     = TRUE,
       save_workflow = TRUE
     )

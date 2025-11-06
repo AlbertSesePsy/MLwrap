@@ -6,19 +6,17 @@
 #'
 #' @description
 #'
-#' The **table_best_hyperparameters()** function extracts and presents the optimal
-#' hyperparameter configuration identified during the model fine-tuning process.
-#' This function validates that the model has been properly trained and that
-#' hyperparameter tuning has been performed, combining both constant and optimized
-#' hyperparameters to generate a comprehensive table with the configuration that
-#' maximizes performance according to the specified primary metric. The function
-#' includes optional interactive visualization capabilities through the show_table
-#' parameter.
+#' The **table_best_hyperparameters()** function extracts and presents the
+#' optimal hyperparameter configuration identified during the model fine-tuning
+#' process. This function validates that the model has been properly trained
+#' and that hyperparameter tuning has been performed, combining both constant
+#' and optimized hyperparameters to generate a comprehensive table with the
+#' configuration that maximizes performance according to the specified primary
+#' metric. The function includes optional interactive visualization
+#' capabilities through the show_table parameter.
 #'
 #' @param analysis_object Fitted analysis_object with 'fine_tuning()'.
-#'
 #' @param show_table Boolean. Whether to print the table.
-#'
 #' @returns Tibble with best hyperparameter configuration.
 #' @examples
 #' # Note: For obtaining hyoperparameters table the user needs to
@@ -35,7 +33,6 @@
 #' # And then, you can obtain the best hyperparameters table.
 #'
 #' table_best_hyp <- table_best_hyperparameters(wrap_object)
-#'
 #' @export
 table_best_hyperparameters <- function(analysis_object, show_table = FALSE){
 
@@ -82,28 +79,23 @@ table_best_hyperparameters <- function(analysis_object, show_table = FALSE){
 #' @description
 #'
 #' The **table_evaluation_results()** function provides access to trained model
-#' evaluation metrics, automatically adapting to the type of problem being analyzed.
-#' For binary classification problems, it returns a unified table with performance
-#' metrics, while for multiclass classification it generates separate tables for
-#' training and test data, enabling comparative performance evaluation and
-#' detection of potential overfitting.
+#' evaluation metrics, automatically adapting to the type of problem being
+#' analyzed. For binary classification problems, it returns a unified table
+#' with performance metrics, while for multiclass classification it generates
+#' separate tables for training and test data, enabling comparative performance
+#' evaluation and detection of potential overfitting.
 #'
 #' @param analysis_object Fitted analysis_object with 'fine_tuning()'.
-#'
 #' @param show_table Boolean. Whether to print the table.
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with evaluation results.
+#' @returns Tibble or list of tibbles (multiclass classification) with
+#' evaluation results.
 #' @examples
 #' # Note: For obtaining the evaluation table the user needs to
 #' # complete till fine_tuning( ) function.
-#'
-#' @seealso \code{\link{table_best_hyperparameters}}
-#'
-#' @examples
 #' # See the full pipeline example under table_best_hyperparameters()
 #' # Final call signature:
 #' # table_evaluation_results(wrap_object)
-#'
+#' @seealso \code{\link{table_best_hyperparameters}}
 #' @export
 table_evaluation_results <- function(analysis_object, show_table = FALSE){
 
@@ -171,14 +163,13 @@ table_evaluation_results <- function(analysis_object, show_table = FALSE){
 #' @description
 #'
 #' The **table_pfi_results()** function extracts Permutation Feature Importance
-#' results, a model-agnostic technique that evaluates variable importance through
-#' performance degradation when randomly permuting each feature's values.
+#' results, a model-agnostic technique that evaluates variable importance
+#' through performance degradation when randomly permuting each feature's values.
 #'
 #' @param analysis_object Fitted analysis_object with 'sensitivity_analysis(methods = "PFI")'.
-#'
 #' @param show_table Boolean. Whether to print the table.
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with PFI results.
+#' @returns Tibble or list of tibbles (multiclass classification) with PFI
+#' results.
 #' @examples
 #' # Note: For obtaining the table with PFI method results the user needs to
 #' # complete till sensitivity_analysis() function of the
@@ -196,7 +187,6 @@ table_evaluation_results <- function(analysis_object, show_table = FALSE){
 #' # And then, you can obtain the PFI results table.
 #'
 #' table_pfi <- table_pfi_results(wrap_object)
-#'
 #' @export
 table_pfi_results <- function(analysis_object, show_table = FALSE){
 
@@ -250,35 +240,31 @@ table_pfi_results <- function(analysis_object, show_table = FALSE){
 #'
 #' The **table_shap_results()** function processes previously calculated SHAP
 #' (SHapley Additive exPlanations) values and generates summarized metrics
-#' including mean absolute value, standard deviation of mean absolute value, and
-#' a directional sensitivity value calculated as the covariance between feature
-#' values and SHAP values divided by the variance of feature values. This
-#' directional metric provides information about the nature of the relationship
-#' between each variable and model predictions. To summarize the SHAP values
-#' calculated, three different metrics are computed:
+#' including mean absolute value, standard deviation of mean absolute value,
+#' and a directional sensitivity value calculated as the covariance between
+#' feature values and SHAP values divided by the variance of feature values.
+#' This directional metric provides information about the nature of the
+#' relationship between each variable and model predictions. To summarize the
+#' SHAP values calculated, three different metrics are computed:
 #'
 #' * **Mean Absolute Value**
 #' * **Standard Deviation of Mean Absolute Value**
 #' * **Directional Sensitivity Value** (Cov(Feature values, SHAP values) / Var(Feature values))
 #'
-#' @param analysis_object Fitted analysis_object with 'sensitivity_analysis(methods = "SHAP")'.
-#'
+#' @param analysis_object Fitted analysis_object with
+#' 'sensitivity_analysis(methods = "SHAP")'.
 #' @param show_table Boolean. Whether to print the table.
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with SHAP summarized results.
+#' @returns Tibble or list of tibbles (multiclass classification) with SHAP
+#' summarized results.
 #' @examples
 #' # Note: For obtaining the table with SHAP method results the user needs
 #' # to complete till sensitivity_analysis() function of the
 #' # MLwrap pipeline using the SHAP method.
-#'
-#' @seealso \code{\link{sensitivity_analysis}}
-#'
-#' @examples
 #' # See the full pipeline example under sensitivity_analysis
 #' # (Requires sensitivity_analysis(methods = "SHAP"))
 #' # Final call signature:
 #' # table_shap_results(wrap_object)
-#'
+#' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_shap_results <- function(analysis_object, show_table = FALSE){
 
@@ -330,36 +316,30 @@ table_shap_results <- function(analysis_object, show_table = FALSE){
 #'
 #' @description
 #'
-#' The **table_integrated_gradients_results()** function implements the same
-#' summarized metrics scheme for Integrated Gradients values, a methodology
-#' specifically designed for neural networks that calculates feature importance
-#' through gradient integration along paths from a baseline to the current input.
-#' To summarize the Integrated Gradients values calculated, three different
-#' metrics are computed:
+#' The **table_integrated_gradients_results()** function implements a
+#' summarized metrics scheme for Integrated Gradients values. This methodology,
+#' specifically designed for neural networks, calculates feature importance
+#' through gradient integration along paths from baseline to input. Three
+#' different metrics are computed:
 #'
 #' * **Mean Absolute Value**
 #' * **Standard Deviation of Mean Absolute Value**
 #' * **Directional Sensitivity Value** (Cov(Feature values, IG values) / Var(Feature values))
 #'
-#' @param analysis_object Fitted analysis_object with 'sensitivity_analysis(methods = "Integrated Gradients")'.
-#'
+#' @param analysis_object Fitted analysis_object with
+#' 'sensitivity_analysis(methods = "Integrated Gradients")'.
 #' @param show_table Boolean. Whether to print the table.
-#'
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with Integrated Gradient summarized results.
+#' @returns Tibble or list of tibbles (multiclass classification) with
+#' Integrated Gradient summarized results.
 #' @examples
 #' # Note: For obtaining the table with Integrated Gradients method results
 #' # the user needs to complete till sensitivity_analysis() function of the
 #' # MLwrap pipeline using the Integrated Gradient method.
-#'
-#' @seealso \code{\link{sensitivity_analysis}}
-#'
-#' @examples
 #' # See the full pipeline example under sensitivity_analysis
 #' # (Requires sensitivity_analysis(methods = "Integrated Gradients"))
 #' # Final call signature:
 #' # table_integrated_gradients_results(wrap_object)
-#'
+#' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_integrated_gradients_results <- function(analysis_object, show_table = FALSE){
 
@@ -411,31 +391,27 @@ table_integrated_gradients_results <- function(analysis_object, show_table = FAL
 #'
 #' @description
 #'
-#' The **table_olden_results()** function extracts results from the Olden method,
-#' a technique specific to neural networks that calculates relative importance of
-#' input variables through analysis of connection weights between network layers.
-#' This method provides a measure of each variable's contribution based on the
-#' magnitude and direction of synaptic connections.
+#' The **table_olden_results()** function extracts results from the Olden
+#' method, a technique specific to neural networks that calculates relative
+#' importance of input variables through analysis of connection weights between
+#' network layers. This method provides a measure of each variable's
+#' contribution based on the magnitude and direction of synaptic connections.
 #'
-#' @param analysis_object Fitted analysis_object with 'sensitivity_analysis(methods = "Olden")'.
-#'
+#' @param analysis_object Fitted analysis_object with
+#' 'sensitivity_analysis(methods = "Olden")'.
 #' @param show_table Boolean. Whether to print the table.
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with Olden results.
+#' @returns Tibble or list of tibbles (multiclass classification) with Olden
+#' results.
 #' @examples
 #' # Note: For obtaining the table with Olden method results the user needs to
 #' # complete till sensitivity_analysis() function of the MLwrap pipeline using
 #' # the Olden method. Remember Olden method only can be used with neural
 #' # network model.
-#'
-#' @seealso \code{\link{sensitivity_analysis}}
-#'
-#' @examples
 #' # See the full pipeline example under sensitivity_analysis
 #' # (Requires sensitivity_analysis(methods = "Olden"))
 #' # Final call signature:
 #' # table_olden_results(wrap_object)
-#'
+#' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_olden_results <- function(analysis_object, show_table = FALSE){
 
@@ -480,25 +456,21 @@ table_olden_results <- function(analysis_object, show_table = FALSE){
 #' is particularly valuable for identifying higher-order effects and complex
 #' interactions between variables.
 #'
-#' @param analysis_object Fitted analysis_object with 'sensitivity_analysis(methods = "Sobol_Jansen")'.
-#'
+#' @param analysis_object Fitted analysis_object with
+#' 'sensitivity_analysis(methods = "Sobol_Jansen")'.
 #' @param show_table Boolean. Whether to print the table.
-#'
-#' @returns Tibble or list of tibbles (multiclass classification) with Sobol-Jansen results.
+#' @returns Tibble or list of tibbles (multiclass classification) with
+#' Sobol-Jansen results.
 #' @examples
 #' # Note: For obtaining the table with Sobol_Jansen method results the user
 #' # needs to complete till sensitivity_analysis() function of the MLwrap
 #' # pipeline using the Sobol_Jansen method. Sobol_Jansen method only works
 #' # when all input features are continuous.
-#'
-#' @seealso \code{\link{sensitivity_analysis}}
-#'
-#' @examples
 #' # See the full pipeline example under sensitivity_analysis
 #' # (Requires sensitivity_analysis(methods = "Sobol_Jansen"))
 #' # Final call signature:
 #' # table_sobol_jansen_results(wrap_object)
-#'
+#' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_sobol_jansen_results <- function(analysis_object, show_table = FALSE){
 

@@ -108,7 +108,10 @@
 #' @examples
 #' # Example 1: Random Forest for regression task
 #'
-#' set.seed(123) # For reproducibility
+#' library(MLwrap)
+#'
+#' data(sim_data) # sim_data is a simulated dataset with psychological variables
+#'
 #' wrap_object <- preprocessing(
 #'      df = sim_data,
 #'      formula = psych_well ~ depression + emot_intel + resilience + life_sat,
@@ -129,7 +132,8 @@
 #'
 #' # Example 2: SVM for classification task
 #'
-#' set.seed(123) # For reproducibility
+#' data(sim_data) # sim_data is a simulated dataset with psychological variables
+#'
 #' wrap_object <- preprocessing(
 #'          df = sim_data,
 #'          formula = psych_well_bin ~ depression + emot_intel + resilience + life_sat,
@@ -220,6 +224,24 @@ build_model <- function(analysis_object, model_name, hyperparameters = NULL){
     type = hyperparameters$type
 
     hyperparams_svm = HyperparamsSVM$new(hyperparameters)
+
+    # margin only available for regression
+
+    if (task == "classification"){
+
+      hyperparams_svm$margin_tune <- FALSE
+
+      hyperparams_svm$hyperparams_ranges$margin <- NULL
+
+      hyperparams_svm$hyperparams_constant$margin <- NULL
+
+      if (length(hyperparams_svm$hyperparams_ranges) == 0){
+
+        hyperparams_svm$tuning <- FALSE
+
+      }
+
+    }
 
     analysis_object$modify("hyperparameters", hyperparams_svm)
 

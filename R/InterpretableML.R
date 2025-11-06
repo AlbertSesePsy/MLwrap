@@ -10,14 +10,14 @@
 #' @description
 #' As the final step in the MLwrap package workflow, this function performs
 #' Sensitivity Analysis (SA) on a fitted ML model stored in an `analysis_object`
-#' (in the examples, e.g., tidy_object). It evaluates the importance of features
-#' using various methods such as Permutation Feature Importance (PFI), SHAP
-#' (SHapley Additive exPlanations), Integrated Gradients, Olden sensitivity
-#' analysis, and Sobol indices. The function generates numerical results and
-#' visualizations (e.g., bar plots, box plots, beeswarm plots) to help interpret
-#' the impact of each feature on the model's predictions for both regression and
-#' classification tasks, providing critical insights after model training and
-#' evaluation.
+#' (in the examples, e.g., tidy_object). It evaluates the importance of
+#' features using various methods such as Permutation Feature Importance (PFI),
+#' SHAP (SHapley Additive exPlanations), Integrated Gradients, Olden
+#' sensitivity analysis, and Sobol indices. The function generates numerical
+#' results and visualizations (e.g., bar plots, box plots, beeswarm plots) to
+#' help interpret the impact of each feature on the model's predictions for
+#' both regression and classification tasks, providing critical insights after
+#' model training and evaluation.
 #'
 #' Following the steps of data preprocessing, model fitting, and performance
 #' assessment in the MLwrap pipeline, *sensitivity_analysis()* processes the
@@ -29,20 +29,19 @@
 #' (Iooss & Lemaître, 2015).
 #'
 #' @param analysis_object analysis_object created from fine_tuning function.
-#' @param methods Method to be used. A string of the method name: "PFI" (Permutation Feature Importance),
-#'     "SHAP" (SHapley Additive exPlanations), "Integrated Gradients" (Neural Network only), "Olden"
-#'     (Neural Network only), "Sobol_Jansen" (only when all input features are continuous).
+#' @param methods Method to be used. A string of the method name: "PFI"
+#'     (Permutation Feature Importance), "SHAP" (SHapley Additive exPlanations),
+#'     "Integrated Gradients" (Neural Network only), "Olden" (Neural Networks
+#'     only), "Sobol_Jansen" (only when all input features are continuous).
 #' @param  metric Metric used for "PFI" method (Permutation Feature Importance).
-#'  A string of the name of metric (see Metrics).
-#'
+#'     A string of the name of metric (see Metrics).
 #' @details
-#' As the concluding phase of the MLwrap workflow—after data preparation, model
-#' training, and evaluation—this function enables users to interpret their
-#' models by quantifying and visualizing feature importance. It first validates
-#' the input arguments using `check_args_sensitivity_analysis()`. Then, it
-#' preprocesses the training and test data using the recipe stored in
-#' `analysis_object$transformer`. Depending on the specified `methods`, it
-#' calculates feature importance using:
+#' As the concluding phase of the MLwrap workflow—after data preparation,
+#' model training, and evaluation—this function interprets models by
+#' quantifying and visualizing feature importance. It validates input with
+#' `check_args_sensitivity_analysis()`, preprocesses data using the recipe
+#' stored in `analysis_object$transformer`, then calculates feature importance
+#' via the specified `methods`:
 #' - **PFI (Permutation Feature Importance):** Assesses importance by shuffling
 #'     feature values and measuring the change in model performance (using the
 #'     specified or default `metric`).
@@ -52,13 +51,12 @@
 #'     gradients of the model's output with respect to input features.
 #' - **Olden:** Calculates sensitivity based on connection weights, typically
 #'     for neural network models, to determine feature contributions.
-#' - **Sobol_Jansen:** Performs variance-based global sensitivity analysis by
-#'     decomposing the model output variance into contributions from individual
-#'     features and their interactions, quantifying how much each feature and
-#'     combination of features accounts for the variability in predictions.
-#'     Only for continuous outcomes, not for categorical. Specifically,
-#'     estimates first-order and total-order Sobol' sensitivity indices
-#'     simultaneously using the Jansen (1999) Monte Carlo estimator.
+#' - **Sobol_Jansen:** Variance-based global sensitivity analysis that
+#'     decomposes model output variance into contributions from individual
+#'     features and their interactions. Quantifies how much each feature
+#'     accounts for prediction variability. Only for continuous outcomes.
+#'     Estimates first-order and total-order Sobol indices using the Jansen
+#'     (1999) Monte Carlo estimator.
 #'
 #' For classification tasks with more than two outcome levels, the function
 #' generates separate results and plots for each class. Visualizations include
@@ -66,17 +64,15 @@
 #' beeswarm plots for detailed feature impact across observations. All results
 #' are stored in the `analysis_object` under the `sensitivity_analysis` slot,
 #' finalizing the MLwrap pipeline with a deep understanding of model drivers.
-#' @returns An updated `analysis_object` with the results of the sensitivity
-#' analysis stored in the `sensitivity_analysis` slot as a list.
-#' Each method's results are accessible under named elements (e.g.,
-#' `sensitivity_analysis[["PFI"]]`). Additionally, the function produces various
-#' plots (bar plots, box plots, beeswarm plots) for visual interpretation of
-#' feature importance, tailored to the task type and number of outcome levels,
-#' completing the MLwrap workflow with actionable model insights.
+#' @returns An updated \code{analysis_object} containing sensitivity
+#' analysis results. Results are stored in the
+#' \code{sensitivity_analysis} slot as a list, with each method's
+#' results accessible by name. Generates bar, box, and beeswarm
+#' plots for feature importance visualization, completing the
+#' workflow with actionable insights.
 #' @examples
 #' # Example: Using PFI
 #'
-#' set.seed(123) # For reproducibility
 #' wrap_object <- preprocessing(
 #'        df = sim_data,
 #'        formula = psych_well ~ depression + life_sat,
@@ -90,6 +86,7 @@
 #'                                  trees = 3
 #'                                  )
 #'                            )
+#' set.seed(123) # For reproducibility
 #' wrap_object <- fine_tuning(wrap_object,
 #'                 tuner = "Grid Search CV",
 #'                 metrics = c("rmse")
@@ -101,14 +98,16 @@
 #' table_pfi <- table_pfi_results(wrap_object)
 #'
 #' @references
-#' Iooss, B., & Lemaître, P. (2015). A review on global sensitivity analysis
-#' methods. In C. Meloni & G. Dellino (Eds.), *Uncertainty Management in
-#' Simulation-Optimization of Complex Systems: Algorithms and Applications*
-#' (pp. 101-122). Springer. https://doi.org/10.1007/978-1-4899-7547-8_5
+#' Iooss, B., & Lemaître, P. (2015). A review on global sensitivity
+#' analysis methods. In: G. Dellino & C. Meloni (Eds.),
+#' \emph{Uncertainty Management in Simulation-Optimization of
+#' Complex Systems. Operations Research/Computer Science Interfaces
+#' Series} (vol. 59). Springer, Boston, MA.
+#' \doi{10.1007/978-1-4899-7547-8_5}
 #'
 #' Jansen, M. J. W. (1999). Analysis of variance designs for model output.
-#' Computer Physics Communications, 117(1-2), 35–43.
-#' https://doi.org/10.1016/S0010-4655(98)00154-4
+#' *Computer Physics Communications, 117*(1-2), 35–43.
+#' \doi{10.1016/S0010-4655(98)00154-4}
 #' @export
 sensitivity_analysis <- function(analysis_object, methods = c("PFI"), metric = NULL){
 

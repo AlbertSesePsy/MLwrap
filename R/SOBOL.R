@@ -67,12 +67,12 @@ sobol_plot <- function(sobol_result) {
                       width = 0.6) +
     ggplot2::geom_errorbarh(ggplot2::aes(xmin = value - se, xmax = value + se),
                             position = ggplot2::position_dodge(width = 0.7),
-                            height = 0.2,
+                            width = 0.2,
                             color = "black") +
     ggplot2::geom_text(ggplot2::aes(label = label),
                        position = ggplot2::position_dodge(width = 0.7),
                        hjust = -0.3,
-                       linewidth = 3.5) +
+                       size = 3.5) +
     ggplot2::labs(title = "Sobol Indices (First Order vs Total)",
                   x = "Sobol index", y = "Variable") +
     ggplot2::scale_fill_manual(values = c("S1" = "steelblue", "ST" = "darkorange"),

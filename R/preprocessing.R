@@ -43,11 +43,13 @@ one_hot_predictors <- function(rec, encode_cat_vars, one_hot = T){
 #'
 #' @description
 #'
-#' The **preprocessing()** function streamlines data preparation for regression and classification tasks by
-#' integrating variable selection, type conversion, normalization, and categorical encoding into a single
-#' workflow. It takes a data frame and a formula, applies user-specified transformations to numeric and
-#' categorical variables using the recipes package, and ensures the outcome variable is properly formatted.
-#' The function returns an AnalysisObject containing both the processed data and the transformation pipeline,
+#' The **preprocessing()** function streamlines data preparation for regression
+#' and classification tasks by integrating variable selection, type conversion,
+#' normalization, and categorical encoding into a single workflow. It takes a
+#' data frame and a formula, applies user-specified transformations to numeric
+#' and categorical variables using the recipes package, and ensures the outcome
+#' variable is properly formatted. The function returns an AnalysisObject
+#' containing both the processed data and the transformation pipeline,
 #' supporting reproducible and efficient modeling (Kuhn & Wickham, 2020).
 #'
 #' @param df Input DataFrame. Either a data.frame or tibble.
@@ -57,22 +59,27 @@ one_hot_predictors <- function(rec, encode_cat_vars, one_hot = T){
 #' @param cat_vars Optional vector of names of the categorical features.
 #' @param encode_cat_vars One Hot Encode Categorical Features. Either vector of
 #'  names of categorical features to be encoded or "all" (default).
-#' @param norm_num_vars Normalize numeric features as z-scores. Either vector of
-#'  names of numerical features to be normalized or "all" (default).
-#' @param y_levels Optional ordered vector with names of the target variable levels (Classification task only).
-#' @returns The object returned by the preprocessing function encapsulates a dataset specifically prepared
-#' for ML analysis. This object contains the preprocessed data—where variables have been selected, standardized,
-#' encoded, and formatted according to the requirements of the chosen modeling task (regression or classification)
-#' —as well as a recipes::recipe object that documents all preprocessing steps applied. By automating essential
-#' transformations such as normalization, one-hot encoding of categorical variables, and the handling of
-#' missing values, the function ensures the data is optimally structured for input into machine learning
-#' algorithms. This comprehensive preprocessing not only exposes the underlying structure of the data and
-#' reduces the risk of errors, but also provides a robust foundation for subsequent modeling, validation,
-#' and interpretation within the machine learning workflow (Kuhn & Johnson, 2019).
+#' @param norm_num_vars Normalize numeric features as z-scores. Either vector
+#'  of names of numerical features to be normalized or "all" (default).
+#' @param y_levels Optional ordered vector with names of the target variable
+#'  levels (Classification task only).
+#' @returns The object returned by the preprocessing function encapsulates a
+#' dataset specifically prepared for ML analysis. This object contains the
+#' preprocessed data—where variables have been selected, standardized, encoded,
+#' and formatted according to the requirements of the chosen modeling task
+#' (regression or classification) —as well as a recipes::recipe object that
+#' documents all preprocessing steps applied. By automating essential
+#' transformations such as normalization, one-hot encoding of categorical
+#' variables, and the handling of missing values, the function ensures the data
+#' is optimally structured for input into machine learning algorithms. This
+#' comprehensive preprocessing not only exposes the underlying structure of the
+#' data and reduces the risk of errors, but also provides a robust foundation
+#' for subsequent modeling, validation, and interpretation within the machine
+#' learning workflow (Kuhn & Johnson, 2019).
 #' @examples
 #' # Example 1: Dataset with preformatted categorical variables
-#' # In this case, internal options for variable types are not needed since categorical features
-#' # are already formatted as factors.
+#' # In this case, internal options for variable types are not needed since
+#' # categorical features are already formatted as factors.
 #'
 #' library(MLwrap)
 #'
@@ -84,8 +91,9 @@ one_hot_predictors <- function(rec, encode_cat_vars, one_hot = T){
 #'           task = "regression"
 #'          )
 #'
-#' # Example 2: Dataset where neither the outcome nor the categorical features are formatted as factors
-#' # and all categorical variables are specified to be formatted as factors
+#' # Example 2: Dataset where neither the outcome nor the categorical features
+#' # are formatted as factors and all categorical variables are specified to be
+#' # formatted as factors
 #'
 #' wrap_object <- preprocessing(
 #'            df = sim_data,
@@ -94,11 +102,13 @@ one_hot_predictors <- function(rec, encode_cat_vars, one_hot = T){
 #'            cat_vars = c("gender")
 #'          )
 #' @references
-#' Kuhn, M., & Johnson, K. (2019). *Feature Engineering and Selection: A Practical Approach
-#' for Predictive Models (1st ed.)*. Chapman and Hall/CRC. https://doi.org/10.1201/9781315108230
+#' Kuhn, M., & Johnson, K. (2019). *Feature Engineering and Selection: A
+#' Practical Approach for Predictive Models*. Chapman and Hall/CRC.
+#' \doi{10.1201/9781315108230}
 #'
-#' Kuhn, M., & Wickham, H. (2020). *Tidymodels: a collection of packages for modeling and machine
-#' learning using tidyverse principles*. https://www.tidymodels.org.
+#' Kuhn, M., & Wickham, H. (2020). *Tidymodels: a collection of packages for
+#' modeling and machine learning using tidyverse principles*.
+#' \url{https://www.tidymodels.org}.
 #' @export
 preprocessing <- function(df, formula, task = "regression", num_vars = NULL, cat_vars = NULL,
                           norm_num_vars = "all", encode_cat_vars = "all", y_levels = NULL){

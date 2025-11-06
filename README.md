@@ -71,8 +71,7 @@ analysis_object <- preprocessing(sim_data, formula_reg, task = "regression") |>
    
                    sensitivity_analysis(methods = c("PFI", "SHAP"), 
                                         metric = "rsq")
-#> ! No improvement for 5 iterations; returning current results.
-
+                                        
 ### Tuning Results
 
 analysis_object |>
@@ -103,16 +102,16 @@ analysis_object |>
 table_pfi <- table_pfi_results(analysis_object)
 
 show(table_pfi)
-#> $PFI
-#> # A tibble: 8 × 3
-#>   Feature               Importance   StDev
-#>   <chr>                      <dbl>   <dbl>
-#> 1 depression               0.796   0.0265 
-#> 2 emot_intel               0.193   0.0276 
-#> 3 age                      0.0681  0.00720
-#> 4 socioec_status_Medium    0.00690 0.00257
-#> 5 socioec_status_High      0.00682 0.00165
-#> 6 socioec_status_Low       0.00665 0.00123
-#> 7 gender_Male              0.00531 0.00129
-#> 8 gender_Female            0.00516 0.00167
+$PFI
+# A tibble: 8 × 3
+  Feature               Importance    StDev
+  <chr>                      <dbl>    <dbl>
+1 depression             0.666     0.0151  
+2 emot_intel             0.110     0.0186  
+3 socioec_status_Medium  0.00168   0.00137 
+4 gender_Female          0.000636  0.000745
+5 socioec_status_Low     0.000486  0.00121 
+6 socioec_status_High    0.000148  0.000787
+7 age                   -0.0000825 0.00474 
+8 gender_Male           -0.000400  0.000694
 ```

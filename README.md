@@ -25,6 +25,21 @@ allowing analysts and data scientists to focus on extracting actionable
 insights and meaningful patterns from large datasets, in line with the
 objectives of the KDD process.
 
+Machine learning need not be intimidating for researchers unfamiliar with
+these methods. MLwrap provides an intuitive interface that guides you
+through the entire workflow—from data preparation to model building,
+optimization, and interpretation—making advanced analytics accessible
+to everyone. Before getting started, we recommend consulting our
+open-access tutorial, which offers practical guidance specifically
+designed for researchers new to machine learning. With MLwrap and our
+tutorial, you can confidently apply these powerful analytical tools
+to your research. 
+
+MLwrap Tutorial:
+Jiménez, R., Martínez-García, J., Montaño, J. J., & Sesé, A. (2025).
+MLwrap: Simplifying Machine Learning workflows in R.
+https://doi.org/10.31234/osf.io/j6m4z_v1
+
 ## Installation
 
 You can install the development version of MLwrap from

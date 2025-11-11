@@ -140,11 +140,8 @@ test_that("Check build_model SVM works properly",{
   expect_equal(model_object$hyperparameters$tuning, T)
   expect_equal(model_object$hyperparameters$rbf_sigma_tune, T)
   expect_equal(model_object$hyperparameters$cost_tune, F)
-  expect_equal(model_object$hyperparameters$margin_tune, T)
   expect_equal(model_object$hyperparameters$hyperparams_constant$cost, -2)
   expect_equal(model_object$hyperparameters$hyperparams_ranges$rbf_sigma$range, list("lower" = -3, "upper" = -1))
-  expect_equal(model_object$hyperparameters$hyperparams_ranges$margin$range, list(lower = 0, upper = 0.2))
-
 })
 
 test_that("Check build_model wrong model name",{

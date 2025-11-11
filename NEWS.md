@@ -1,3 +1,8 @@
+# MLwrap 0.2.3
+
+* Permutation Feature Importance (PFI) now implemented natively in MLwrap,
+  eliminating the vip package dependency. Output and API remain unchanged.
+
 # MLwrap 0.2.2
 
 * Added comprehensive documentation on reproducibility with random seed

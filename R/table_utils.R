@@ -171,22 +171,14 @@ table_evaluation_results <- function(analysis_object, show_table = FALSE){
 #' @returns Tibble or list of tibbles (multiclass classification) with PFI
 #' results.
 #' @examples
-#' # Note: For obtaining the table with PFI method results the user needs to
-#' # complete till sensitivity_analysis() function of the
-#' # MLwrap pipeline using PFI method
-#'
-#' set.seed(123) # For reproducibility
-#' wrap_object <- preprocessing(df = sim_data[1:300 ,],
-#'                              formula = psych_well ~ depression + emot_intel,
-#'                              task = "regression")
-#' wrap_object <- build_model(wrap_object, "Random Forest",
-#'                            hyperparameters = list(mtry = 2, trees = 3))
-#' wrap_object <- fine_tuning(wrap_object, "Grid Search CV")
-#' wrap_object <- sensitivity_analysis(wrap_object, methods = "PFI")
-#'
-#' # And then, you can obtain the PFI results table.
-#'
-#' table_pfi <- table_pfi_results(wrap_object)
+#' # Note: For obtaining the table with PFI method results the user needs
+#' # to complete till sensitivity_analysis() function of the
+#' # MLwrap pipeline using the PFI method.
+#' # See the full pipeline example under sensitivity_analysis
+#' # (Requires sensitivity_analysis(methods = "PFI"))
+#' # Final call signature:
+#' # table_pfi_results(wrap_object)
+#' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_pfi_results <- function(analysis_object, show_table = FALSE){
 
@@ -257,13 +249,22 @@ table_pfi_results <- function(analysis_object, show_table = FALSE){
 #' @returns Tibble or list of tibbles (multiclass classification) with SHAP
 #' summarized results.
 #' @examples
-#' # Note: For obtaining the table with SHAP method results the user needs
-#' # to complete till sensitivity_analysis() function of the
-#' # MLwrap pipeline using the SHAP method.
-#' # See the full pipeline example under sensitivity_analysis
-#' # (Requires sensitivity_analysis(methods = "SHAP"))
-#' # Final call signature:
-#' # table_shap_results(wrap_object)
+#' # Note: For obtaining the table with SHAP method results the user needs to
+#' # complete till sensitivity_analysis() function of the
+#' # MLwrap pipeline using SHAP method
+#'
+#' set.seed(123) # For reproducibility
+#' wrap_object <- preprocessing(df = sim_data[1:250 ,],
+#'                              formula = psych_well ~ depression + emot_intel,
+#'                              task = "regression")
+#' wrap_object <- build_model(wrap_object, "Random Forest",
+#'                            hyperparameters = list(mtry = 2, trees = 3))
+#' wrap_object <- fine_tuning(wrap_object, "Grid Search CV")
+#' wrap_object <- sensitivity_analysis(wrap_object, methods = "SHAP")
+#'
+#' # And then, you can obtain the SHAP results table.
+#'
+#' table_shap <- table_shap_results(wrap_object)
 #' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_shap_results <- function(analysis_object, show_table = FALSE){

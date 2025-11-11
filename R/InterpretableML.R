@@ -71,7 +71,7 @@
 #' plots for feature importance visualization, completing the
 #' workflow with actionable insights.
 #' @examples
-#' # Example: Using PFI
+#' # Example: Using SHAP
 #'
 #' wrap_object <- preprocessing(
 #'        df = sim_data,
@@ -91,11 +91,11 @@
 #'                 tuner = "Grid Search CV",
 #'                 metrics = c("rmse")
 #'                 )
-#' wrap_object <- sensitivity_analysis(wrap_object, methods = "PFI")
+#' wrap_object <- sensitivity_analysis(wrap_object, methods = "SHAP")
 #'
 #' # Extracting Results
 #'
-#' table_pfi <- table_pfi_results(wrap_object)
+#' table_shap <- table_shap_results(wrap_object)
 #'
 #' @references
 #' Iooss, B., & Lemaître, P. (2015). A review on global sensitivity

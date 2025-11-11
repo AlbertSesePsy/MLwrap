@@ -13,19 +13,19 @@ plot_loss_curve(analysis_object)
 analysis_object
 }
 \description{
-Plots the training loss curve of the Neural Network model on the validation
-set. This plot can be used for underfitting / overfitting diagnostics.
+Displays training loss trajectory computed on the validation set across
+training epochs. Enables visual diagnosis of convergence dynamics,
+identification of appropriate early stopping points, detection of overfitting
+patterns (where validation loss increases while training loss decreases), and
+assessment of optimization stability throughout the training process.
 }
 \examples{
-
 # Note: For obtaining the loss curve plot the user needs to
 # complete till the fine_tuning( ) function of the MLwrap pipeline.
-
-  # See the full pipeline example under table_best_hyperparameters()
-  # (Neural Network engine required)
-  # Final call signature:
-  # plot_loss_curve(wrap_object)
-
+# See the full pipeline example under table_best_hyperparameters()
+# (Neural Network engine required)
+# Final call signature:
+# plot_loss_curve(wrap_object)
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

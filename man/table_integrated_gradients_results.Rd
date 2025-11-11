@@ -7,20 +7,21 @@
 table_integrated_gradients_results(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "Integrated Gradients")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "Integrated Gradients")'.}
 
 \item{show_table}{Boolean. Whether to print the table.}
 }
 \value{
-Tibble or list of tibbles (multiclass classification) with Integrated Gradient summarized results.
+Tibble or list of tibbles (multiclass classification) with
+Integrated Gradient summarized results.
 }
 \description{
-The \strong{table_integrated_gradients_results()} function implements the same
-summarized metrics scheme for Integrated Gradients values, a methodology
-specifically designed for neural networks that calculates feature importance
-through gradient integration along paths from a baseline to the current input.
-To summarize the Integrated Gradients values calculated, three different
-metrics are computed:
+The \strong{table_integrated_gradients_results()} function implements a
+summarized metrics scheme for Integrated Gradients values. This methodology,
+specifically designed for neural networks, calculates feature importance
+through gradient integration along paths from baseline to input. Three
+different metrics are computed:
 \itemize{
 \item \strong{Mean Absolute Value}
 \item \strong{Standard Deviation of Mean Absolute Value}
@@ -31,12 +32,10 @@ metrics are computed:
 # Note: For obtaining the table with Integrated Gradients method results
 # the user needs to complete till sensitivity_analysis() function of the
 # MLwrap pipeline using the Integrated Gradient method.
-
 # See the full pipeline example under sensitivity_analysis
 # (Requires sensitivity_analysis(methods = "Integrated Gradients"))
 # Final call signature:
 # table_integrated_gradients_results(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

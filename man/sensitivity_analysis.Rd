@@ -9,33 +9,33 @@ sensitivity_analysis(analysis_object, methods = c("PFI"), metric = NULL)
 \arguments{
 \item{analysis_object}{analysis_object created from fine_tuning function.}
 
-\item{methods}{Method to be used. A string of the method name: "PFI" (Permutation Feature Importance),
-"SHAP" (SHapley Additive exPlanations), "Integrated Gradients" (Neural Network only), "Olden"
-(Neural Network only), "Sobol_Jansen" (only when all input features are continuous).}
+\item{methods}{Method to be used. A string of the method name: "PFI"
+(Permutation Feature Importance), "SHAP" (SHapley Additive exPlanations),
+"Integrated Gradients" (Neural Network only), "Olden" (Neural Networks
+only), "Sobol_Jansen" (only when all input features are continuous).}
 
 \item{metric}{Metric used for "PFI" method (Permutation Feature Importance).
 A string of the name of metric (see Metrics).}
 }
 \value{
-An updated \code{analysis_object} with the results of the sensitivity
-analysis stored in the \code{sensitivity_analysis} slot as a list.
-Each method's results are accessible under named elements (e.g.,
-\code{sensitivity_analysis[["PFI"]]}). Additionally, the function produces various
-plots (bar plots, box plots, beeswarm plots) for visual interpretation of
-feature importance, tailored to the task type and number of outcome levels,
-completing the MLwrap workflow with actionable model insights.
+An updated \code{analysis_object} containing sensitivity
+analysis results. Results are stored in the
+\code{sensitivity_analysis} slot as a list, with each method's
+results accessible by name. Generates bar, box, and beeswarm
+plots for feature importance visualization, completing the
+workflow with actionable insights.
 }
 \description{
 As the final step in the MLwrap package workflow, this function performs
 Sensitivity Analysis (SA) on a fitted ML model stored in an \code{analysis_object}
-(in the examples, e.g., tidy_object). It evaluates the importance of features
-using various methods such as Permutation Feature Importance (PFI), SHAP
-(SHapley Additive exPlanations), Integrated Gradients, Olden sensitivity
-analysis, and Sobol indices. The function generates numerical results and
-visualizations (e.g., bar plots, box plots, beeswarm plots) to help interpret
-the impact of each feature on the model's predictions for both regression and
-classification tasks, providing critical insights after model training and
-evaluation.
+(in the examples, e.g., tidy_object). It evaluates the importance of
+features using various methods such as Permutation Feature Importance (PFI),
+SHAP (SHapley Additive exPlanations), Integrated Gradients, Olden
+sensitivity analysis, and Sobol indices. The function generates numerical
+results and visualizations (e.g., bar plots, box plots, beeswarm plots) to
+help interpret the impact of each feature on the model's predictions for
+both regression and classification tasks, providing critical insights after
+model training and evaluation.
 
 Following the steps of data preprocessing, model fitting, and performance
 assessment in the MLwrap pipeline, \emph{sensitivity_analysis()} processes the
@@ -47,13 +47,12 @@ plots, ensuring a comprehensive understanding of model behavior
 (Iooss & Lemaître, 2015).
 }
 \details{
-As the concluding phase of the MLwrap workflow—after data preparation, model
-training, and evaluation—this function enables users to interpret their
-models by quantifying and visualizing feature importance. It first validates
-the input arguments using \code{check_args_sensitivity_analysis()}. Then, it
-preprocesses the training and test data using the recipe stored in
-\code{analysis_object$transformer}. Depending on the specified \code{methods}, it
-calculates feature importance using:
+As the concluding phase of the MLwrap workflow—after data preparation,
+model training, and evaluation—this function interprets models by
+quantifying and visualizing feature importance. It validates input with
+\code{check_args_sensitivity_analysis()}, preprocesses data using the recipe
+stored in \code{analysis_object$transformer}, then calculates feature importance
+via the specified \code{methods}:
 \itemize{
 \item \strong{PFI (Permutation Feature Importance):} Assesses importance by shuffling
 feature values and measuring the change in model performance (using the
@@ -64,13 +63,12 @@ individual predictions by attributing contributions to each feature.
 gradients of the model's output with respect to input features.
 \item \strong{Olden:} Calculates sensitivity based on connection weights, typically
 for neural network models, to determine feature contributions.
-\item \strong{Sobol_Jansen:} Performs variance-based global sensitivity analysis by
-decomposing the model output variance into contributions from individual
-features and their interactions, quantifying how much each feature and
-combination of features accounts for the variability in predictions.
-Only for continuous outcomes, not for categorical. Specifically,
-estimates first-order and total-order Sobol' sensitivity indices
-simultaneously using the Jansen (1999) Monte Carlo estimator.
+\item \strong{Sobol_Jansen:} Variance-based global sensitivity analysis that
+decomposes model output variance into contributions from individual
+features and their interactions. Quantifies how much each feature
+accounts for prediction variability. Only for continuous outcomes.
+Estimates first-order and total-order Sobol indices using the Jansen
+(1999) Monte Carlo estimator.
 }
 
 For classification tasks with more than two outcome levels, the function
@@ -81,9 +79,8 @@ are stored in the \code{analysis_object} under the \code{sensitivity_analysis} s
 finalizing the MLwrap pipeline with a deep understanding of model drivers.
 }
 \examples{
-# Example: Using PFI
+# Example: Using SHAP
 
-set.seed(123) # For reproducibility
 wrap_object <- preprocessing(
        df = sim_data,
        formula = psych_well ~ depression + life_sat,
@@ -97,24 +94,27 @@ wrap_object <- build_model(
                                  trees = 3
                                  )
                            )
+set.seed(123) # For reproducibility
 wrap_object <- fine_tuning(wrap_object,
                 tuner = "Grid Search CV",
                 metrics = c("rmse")
                 )
-wrap_object <- sensitivity_analysis(wrap_object, methods = "PFI")
+wrap_object <- sensitivity_analysis(wrap_object, methods = "SHAP")
 
 # Extracting Results
 
-table_pfi <- table_pfi_results(wrap_object)
+table_shap <- table_shap_results(wrap_object)
 
 }
 \references{
-Iooss, B., & Lemaître, P. (2015). A review on global sensitivity analysis
-methods. In C. Meloni & G. Dellino (Eds.), \emph{Uncertainty Management in
-Simulation-Optimization of Complex Systems: Algorithms and Applications}
-(pp. 101-122). Springer. https://doi.org/10.1007/978-1-4899-7547-8_5
+Iooss, B., & Lemaître, P. (2015). A review on global sensitivity
+analysis methods. In: G. Dellino & C. Meloni (Eds.),
+\emph{Uncertainty Management in Simulation-Optimization of
+Complex Systems. Operations Research/Computer Science Interfaces
+Series} (vol. 59). Springer, Boston, MA.
+\doi{10.1007/978-1-4899-7547-8_5}
 
 Jansen, M. J. W. (1999). Analysis of variance designs for model output.
-Computer Physics Communications, 117(1-2), 35–43.
-https://doi.org/10.1016/S0010-4655(98)00154-4
+\emph{Computer Physics Communications, 117}(1-2), 35–43.
+\doi{10.1016/S0010-4655(98)00154-4}
 }

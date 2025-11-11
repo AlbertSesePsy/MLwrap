@@ -13,18 +13,19 @@ plot_graph_nn(analysis_object)
 analysis_object
 }
 \description{
-Plots a graph visualization of the Neural Network's architecture along with
-its optimized hyperparameters.
+Renders a directed acyclic graph representation of Neural Network
+architecture showing layer stacking order, layer-specific dimensions
+(neurons per layer), activation functions applied at each layer, and
+optimized hyperparameter values (learning rate, batch size, dropout rates,
+regularization coefficients) obtained from hyperparameter tuning procedures.
 }
 \examples{
-# Note: For obtaining the Neural Network architecture graph plot the user needs
-# to complete till the fine_tuning( ) function of the MLwrap pipeline.
-
-  # See the full pipeline example under table_best_hyperparameters()
-  # (Neural Network engine required)
-  # Final call signature:
-  # plot_graph_nn(wrap_object)
-
+# Note: For obtaining the Neural Network architecture graph plot the user
+# needs to complete till the fine_tuning( ) function of the MLwrap pipeline.
+# See the full pipeline example under table_best_hyperparameters()
+# (Neural Network engine required)
+# Final call signature:
+# plot_graph_nn(wrap_object)
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

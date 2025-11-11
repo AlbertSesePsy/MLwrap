@@ -13,18 +13,19 @@ plot_scatter_residuals(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_scatter_residuals()} function produces scatter plots relating residuals to predictions, facilitating
-identification of heteroscedasticity and non-linear patterns in model errors. This diagnostic plot is essential
-for validating regression model assumptions and detecting potential issues with model specification or data quality.
+The \strong{plot_scatter_residuals()} function Visualizes residuals plotted
+against fitted values to detect violations of ordinary least squares
+assumptions including homoscedasticity (constant error variance), linearity,
+and independence. Identifies heteroscedastic patterns (non-constant variance
+across the predictor range), systematic curvature indicating omitted
+polynomial terms, and outlier points with extreme residual magnitudes.
 }
 \examples{
-# Note: For obtaining the residuals vs. predicted values plot the user needs to
-# complete till fine_tuning( ) function of the MLwrap pipeline.
-
+# Note: For obtaining the residuals vs. predicted values plot the user needs
+# to complete till fine_tuning( ) function of the MLwrap pipeline.
 # See the full pipeline example under table_best_hyperparameters()
 # Final call signature:
 # plot_scatter_residuals(wrap_object)
-
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

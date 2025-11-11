@@ -13,20 +13,20 @@ plot_scatter_predictions(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_scatter_predictions()} function generates scatter plots between
-observed and predicted values, providing direct visual assessment of model
-predictive accuracy. The function displays both training and test results side
-by side, enabling evaluation of model generalization performance and
-identification of potential overfitting.
+The \strong{plot_scatter_predictions()} function generates scatter plots with
+45-degree reference lines comparing observed values (vertical axis) against
+model predictions (horizontal axis) for training and test data. Enables
+visual assessment of prediction accuracy through distance from the reference
+line, identification of systematic bias patterns, detection of
+heteroscedastic prediction errors, and quantification of generalization
+performance gaps between training and test sets.
 }
 \examples{
-# Note: For obtaining the observed vs. predicted values plot the user needs to
-# complete till fine_tuning( ) function of the MLwrap pipeline.
-
+# Note: For obtaining the observed vs. predicted values plot the user needs
+# to complete till fine_tuning( ) function of the MLwrap pipeline.
 # See the full pipeline example under table_best_hyperparameters()
 # Final call signature:
 # plot_scatter_predictions(wrap_object)
-
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

@@ -13,20 +13,19 @@ plot_residuals_distribution(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_residuals_distribution()} function generates histograms of residual
-distributions for both training and test data in regression problems. This
-visualization enables evaluation of error normality and detection of systematic
-patterns in model residuals. The function uses patchwork to combine training
-and test plots in a single display for direct comparison.
+The \strong{plot_residuals_distribution()} function generates histogram and kernel
+density visualizations of residuals for regression models on training and
+test datasets. Enables assessment of residual normality through visual
+inspection of histogram shape, detection of systematic biases indicating
+omitted variables or model specification errors, and identification of heavy
+tails suggesting outliers or influential observations.
 }
 \examples{
 # Note: For obtaining the residuals distribution plot the user needs to
 # complete till fine_tuning( ) function of the MLwrap pipeline.
-
 # See the full pipeline example under table_best_hyperparameters()
 # Final call signature:
 # plot_residuals_distribution(wrap_object)
-
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

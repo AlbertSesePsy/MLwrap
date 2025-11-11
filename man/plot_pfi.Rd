@@ -7,7 +7,8 @@
 plot_pfi(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "PFI")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "PFI")'.}
 
 \item{show_table}{Boolean. Whether to print PFI results table.}
 }
@@ -15,21 +16,21 @@ plot_pfi(analysis_object, show_table = FALSE)
 analysis_object
 }
 \description{
-The \strong{plot_pfi()} function generates bar plots to visualize feature
-importance through permutation, providing clear representation of each
-predictor variable's relative contribution to model performance. The
-function includes an option to display accompanying numerical results
-tables for comprehensive interpretation.
+The \strong{plot_pfi()} function generates feature importance estimates via
+Permutation Feature Importance measuring performance degradation when each
+feature's values are randomly permuted while holding all other features
+constant. Provides model-agnostic importance ranking independent of
+feature-target correlation patterns, capturing both linear and non-linear
+predictive contributions to model performance.
 }
 \examples{
 # Note: For obtaining the PFI plot results the user needs to complete till
-# sensitivity_analysis( ) function of the MLwrap pipeline using the PFI method.
-
+# sensitivity_analysis( ) function of the MLwrap pipeline using the PFI
+# method.
 # See the full pipeline example under sensitivity_analysis()
 # (Requires sensitivity_analysis(methods = "PFI"))
 # Final call signature:
 # plot_pfi(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

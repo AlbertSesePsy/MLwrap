@@ -13,16 +13,17 @@ plot_pr_curve(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_pr_curve()} function generates precision-recall curves, which are
-particularly valuable for evaluating classifier performance on imbalanced
-datasets. These curves show the relationship between precision and recall
-across different decision thresholds, complementing ROC curve analysis.
+The \strong{plot_pr_curve()} function generates Precision-Recall curve tracing
+the relationship between precision and recall across all classification
+probability thresholds. Particularly informative for imbalanced datasets
+where ROC curves may be misleading, as PR curves remain sensitive to class
+distribution changes and provide intuitive performance assessment when one
+class is substantially rarer than the other.
 }
 \examples{
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_pr_curve(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

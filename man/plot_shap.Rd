@@ -15,22 +15,24 @@ plot_shap(analysis_object, show_table = FALSE)
 analysis_object
 }
 \description{
-The \strong{plot_shap()} function implements a comprehensive set of visualizations
-for SHAP values, including bar plots of mean absolute values, directional
-plots showing positive or negative contribution nature, box plots
-illustrating SHAP value distributions by variable, and swarm plots combining
-individual and distributional information. This multifaceted approach enables
-deep understanding of how each feature influences model predictions.
+The \strong{plot_shap()} function implements comprehensive SHAP (SHapley Additive
+exPlanations) value visualizations where SHAP values represent each
+feature's marginal contribution to model output based on cooperative game
+theory principles. Provides four visualization modalities: bar plots of mean
+absolute SHAP values ranking features by average impact magnitude,
+directional plots showing feature-value correlation with SHAP magnitude and
+sign, box plots illustrating SHAP value distributions across instances, and
+swarm plots combining individual prediction contributions with
+distributional information.
 }
 \examples{
 # Note: For obtaining the SHAP plots the user needs to complete till
-# sensitivity_analysis( ) function of the MLwrap pipeline using the SHAP method.
-
+# sensitivity_analysis( ) function of the MLwrap pipeline using the SHAP
+# method.
 # See the full pipeline example under sensitivity_analysis()
 # (Requires sensitivity_analysis(methods = "SHAP"))
 # Final call signature:
 # plot_shap(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

@@ -111,7 +111,10 @@ A single value, a vector with range values \code{c(min_val, max_val)} or NULL fo
 \examples{
 # Example 1: Random Forest for regression task
 
-set.seed(123) # For reproducibility
+library(MLwrap)
+
+data(sim_data) # sim_data is a simulated dataset with psychological variables
+
 wrap_object <- preprocessing(
      df = sim_data,
      formula = psych_well ~ depression + emot_intel + resilience + life_sat,
@@ -132,7 +135,8 @@ wrap_object <- build_model(
 
 # Example 2: SVM for classification task
 
-set.seed(123) # For reproducibility
+data(sim_data) # sim_data is a simulated dataset with psychological variables
+
 wrap_object <- preprocessing(
          df = sim_data,
          formula = psych_well_bin ~ depression + emot_intel + resilience + life_sat,

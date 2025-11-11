@@ -13,21 +13,20 @@ plot_roc_curve(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_roc_curve()} function produces ROC (Receiver Operating
-Characteristic) curves, providing fundamental visual metrics for evaluating
-binary and multiclass classifier performance. The ROC curve illustrates the
-trade-off between true positive rate and false positive rate across different
-classification thresholds.
+The \strong{plot_roc_curve()} function plots Receiver Operating Characteristic
+(ROC) curve displaying true positive rate versus false positive rate across
+all classification probability thresholds. Computes Area Under Curve (AUC)
+as an aggregate discrimination performance metric independent of threshold
+selection, providing comprehensive assessment of classifier discrimination
+ability across the entire decision boundary range.
 }
 \examples{
 # Note: For obtaining roc curve plot the user needs to
 # complete till fine_tuning( ) function of the MLwrap pipeline and
 # only with categorical outcome.
-
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_roc_curve(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

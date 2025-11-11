@@ -13,21 +13,20 @@ plot_distribution_by_class(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_distribution_by_class()} function generates distributions of
-model output scores segmented by class, facilitating evaluation of
-separability between categories and identification of problematic overlaps.
-This visualization helps assess whether the model produces sufficiently
-distinct score distributions for different classes.
+The \strong{plot_distribution_by_class()} function visualizes kernel density
+estimates or histograms of predicted probability distributions stratified by
+true class labels. Enables assessment of class separability through
+probability overlap quantification and identification of prediction
+probability ranges where different classes exhibit substantial overlap,
+indicating classification ambiguity regions.
 }
 \examples{
 # Note: For obtaining the distribution by class plot the user needs to
 # complete till fine_tuning( ) function of the MLwrap pipeline
 # and only with categorical outcome.
-
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_distribution_by_class(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

@@ -7,31 +7,33 @@
 plot_integrated_gradients(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "Integrated Gradients")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "Integrated Gradients")'.}
 
-\item{show_table}{Boolean. Whether to print Integrated Gradients summarized results table.}
+\item{show_table}{Boolean. Whether to print Integrated Gradients summarized
+results table.}
 }
 \value{
 analysis_object
 }
 \description{
-The \strong{plot_integrated_gradients()} function replicates the SHAP
-visualization structure for integrated gradient values, providing the same
-four graphical modalities adapted to this specific interpretability
-methodology for neural networks. This function is particularly valuable for
-understanding feature importance in deep learning architectures where
-gradients provide direct information about model sensitivity.
+The \strong{plot_integrated_gradients()} function implements interpretability
+visualizations of integrated gradient attributions measuring feature
+importance through accumulated gradients along the interpolation path from
+baseline (zero vector) to observed input. Provides four visualization
+modalities: mean absolute attributions (bar plots), directional effects
+showing positive and negative contribution patterns (directional plots),
+distributional properties of attributions across instances (box plots),
+and individual-level attribution contributions (swarm plots).
 }
 \examples{
 # Note: For obtaining the Integrated Gradients plot the user needs to
 # complete till sensitivity_analysis( ) function of the MLwrap pipeline
 # using the Integrated Gradients method.
-
 # See the full pipeline example under sensitivity_analysis()
 # (Requires sensitivity_analysis(methods = "Integrated Gradients"))
 # Final call signature:
 # plot_integrated_gradients(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

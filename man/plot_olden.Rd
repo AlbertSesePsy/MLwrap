@@ -7,7 +7,8 @@
 plot_olden(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "Olden")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "Olden")'.}
 
 \item{show_table}{Boolean. Whether to print Olden results table.}
 }
@@ -15,22 +16,20 @@ plot_olden(analysis_object, show_table = FALSE)
 analysis_object
 }
 \description{
-The \strong{plot_olden()} function generates specialized bar plots for visualizing
-Olden method results, which provide importance measures specific to neural
-networks based on connection weight analysis. This method offers insights
-into how input variables influence predictions through the network's synaptic
-connections.
+The \strong{plot_olden()} function visualizes Olden sensitivity values computed
+from products of input-to-hidden layer connection weights and
+hidden-to-output layer connection weights for each feature. Provides relative
+feature importance rankings specific to feedforward Neural Networks based on
+synaptic weight magnitude and directionality analysis across network layers.
 }
 \examples{
 # Note: For obtaining the Olden plot the user needs to complete till
 # sensitivity_analysis( ) function of the MLwrap pipeline using the Olden
 # method.
-
 # See the full pipeline example under sensitivity_analysis()
 # (Requires sensitivity_analysis(methods = "Olden"))
 # Final call signature:
 # plot_olden(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

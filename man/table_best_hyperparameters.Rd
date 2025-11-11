@@ -15,14 +15,14 @@ table_best_hyperparameters(analysis_object, show_table = FALSE)
 Tibble with best hyperparameter configuration.
 }
 \description{
-The \strong{table_best_hyperparameters()} function extracts and presents the optimal
-hyperparameter configuration identified during the model fine-tuning process.
-This function validates that the model has been properly trained and that
-hyperparameter tuning has been performed, combining both constant and optimized
-hyperparameters to generate a comprehensive table with the configuration that
-maximizes performance according to the specified primary metric. The function
-includes optional interactive visualization capabilities through the show_table
-parameter.
+The \strong{table_best_hyperparameters()} function extracts and presents the
+optimal hyperparameter configuration identified during the model fine-tuning
+process. This function validates that the model has been properly trained
+and that hyperparameter tuning has been performed, combining both constant
+and optimized hyperparameters to generate a comprehensive table with the
+configuration that maximizes performance according to the specified primary
+metric. The function includes optional interactive visualization
+capabilities through the show_table parameter.
 }
 \examples{
 # Note: For obtaining hyoperparameters table the user needs to
@@ -39,5 +39,4 @@ wrap_object <- fine_tuning(wrap_object, "Grid Search CV")
 # And then, you can obtain the best hyperparameters table.
 
 table_best_hyp <- table_best_hyperparameters(wrap_object)
-
 }

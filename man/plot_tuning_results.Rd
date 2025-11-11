@@ -13,22 +13,21 @@ plot_tuning_results(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_tuning_results()} function generates graphical representations of
-hyperparameter search results, automatically adapting to the type of optimizer
-used. When Bayesian optimization is employed, the function presents additional
-plots showing the iterative evolution of the loss function and search results
-throughout the optimization process. This function validates that model fitting
-has been completed and that hyperparameter tuning was actually performed before
-attempting to display results.
+The \strong{plot_tuning_results()} function Visualizes hyperparameter optimization
+search results adapting output format to the optimization methodology
+employed. For Bayesian Optimization: displays iteration-by-iteration loss
+function evolution across iterations, acquisition function values guiding
+sequential hyperparameter sampling, and final hyperparameter configuration
+with cross-validation performance metrics. For Grid Search: displays
+performance surfaces across hyperparameter dimensions and rank-ordered
+configurations by validation performance.
 }
 \examples{
-# Note: For obtaining the plot with tuning results the user needs to complete till
-# fine_tuning( ) function of the MLwrap pipeline.
-
+# Note: For obtaining the plot with tuning results the user needs to
+# complete till fine_tuning( ) function of the MLwrap pipeline.
 # See the full pipeline example under table_best_hyperparameters()
 # Final call signature:
 # plot_tuning_results(wrap_object)
-
 }
 \seealso{
 \code{\link{table_best_hyperparameters}}

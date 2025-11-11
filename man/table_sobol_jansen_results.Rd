@@ -7,12 +7,14 @@
 table_sobol_jansen_results(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "Sobol_Jansen")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "Sobol_Jansen")'.}
 
 \item{show_table}{Boolean. Whether to print the table.}
 }
 \value{
-Tibble or list of tibbles (multiclass classification) with Sobol-Jansen results.
+Tibble or list of tibbles (multiclass classification) with
+Sobol-Jansen results.
 }
 \description{
 The \strong{table_sobol_jansen_results()} function processes results from
@@ -27,12 +29,10 @@ interactions between variables.
 # needs to complete till sensitivity_analysis() function of the MLwrap
 # pipeline using the Sobol_Jansen method. Sobol_Jansen method only works
 # when all input features are continuous.
-
 # See the full pipeline example under sensitivity_analysis
 # (Requires sensitivity_analysis(methods = "Sobol_Jansen"))
 # Final call signature:
 # table_sobol_jansen_results(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

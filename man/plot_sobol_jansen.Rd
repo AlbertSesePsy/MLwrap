@@ -7,7 +7,8 @@
 plot_sobol_jansen(analysis_object, show_table = FALSE)
 }
 \arguments{
-\item{analysis_object}{Fitted analysis_object with 'sensitivity_analysis(methods = "Sobol_Jansen")'.}
+\item{analysis_object}{Fitted analysis_object with
+'sensitivity_analysis(methods = "Sobol_Jansen")'.}
 
 \item{show_table}{Boolean. Whether to print Sobol-Jansen results table.}
 }
@@ -15,22 +16,21 @@ plot_sobol_jansen(analysis_object, show_table = FALSE)
 analysis_object
 }
 \description{
-The \strong{plot_sobol_jansen()} function produces bar plots for Sobol-Jansen
-analysis results, offering a global sensitivity perspective based on variance
-decomposition. This methodology is particularly valuable for identifying
-higher-order effects and complex interactions between variables in model
-predictions.
+The \strong{plot_sobol_jansen()} function displays first-order and total-order
+Sobol indices decomposing total output variance into contributions from
+individual features and higher-order interaction terms. Implements
+variance-based global sensitivity analysis providing comprehensive
+understanding of feature contributions to output uncertainty, with
+application restricted to continuous predictor variables.
 }
 \examples{
 # Note: For obtaining the Sobol_Jansen plot the user needs to complete till
 # sensitivity_analysis( ) function of the MLwrap pipeline using
 # the Sobol_Jansen method.
-
 # See the full pipeline example under sensitivity_analysis()
 # (Requires sensitivity_analysis(methods = "Sobol_Jansen"))
 # Final call signature:
 # plot_sobol_jansen(wrap_object)
-
 }
 \seealso{
 \code{\link{sensitivity_analysis}}

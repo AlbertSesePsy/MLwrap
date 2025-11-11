@@ -13,20 +13,20 @@ plot_gain_curve(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_gain_curve()} function implements specialized visualizations for
-evaluating model effectiveness in marketing and case selection contexts. The
-gain curve shows cumulative gains as a function of population percentile,
-helping assess how well the model identifies high-value cases in ranked
-populations.
+The \strong{plot_gain_curve()} plots cumulative gain as a function of sorted
+population percentile when observations are ranked by descending predicted
+probability. For each percentile threshold, calculates the ratio of positive
+class proportion in the top-ranked subset relative to overall positive class
+proportion, quantifying model's efficiency in concentrating target cases at
+the top of rankings.
 }
 \examples{
-# Note: For obtaining the gain curve plot the user needs to complete till fine_tuning( ) function
-# of the MLwrap pipeline and only with categorical outcome.
-
+# Note: For obtaining the gain curve plot the user needs to complete till
+# fine_tuning( ) function of the MLwrap pipeline and only with categorical
+# outcome.
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_gain_curve(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

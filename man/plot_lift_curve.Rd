@@ -13,21 +13,19 @@ plot_lift_curve(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_lift_curve()} function produces lift curves that display the lift
-factor as a function of population percentile. This visualization is
-particularly useful for direct marketing applications, showing how much
-better the model performs compared to random selection at different population
-segments.
+The \strong{plot_lift_curve()} function plots lift factor as a function of
+population percentile when observations are ranked by descending predicted
+probability. The lift factor quantifies model's ranking efficiency relative
+to random ordering baseline at each population cumulative segment, showing
+how much better model selection performs compared to random case selection.
 }
 \examples{
 # Note: For obtaining the lift curve plot the user needs to complete till
 # fine_tuning( ) function of the MLwrap pipeline and only with categorical
 # outcome.
-
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_lift_curve(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

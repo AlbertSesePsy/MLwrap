@@ -13,21 +13,21 @@ plot_confusion_matrix(analysis_object)
 analysis_object
 }
 \description{
-The \strong{plot_confusion_matrix()} function generates confusion matrices for both
-training and test data in classification problems. This visualization allows
-evaluation of classification accuracy by category and identification of
-confusion patterns between classes, providing insights into which classes are
-most frequently misclassified.
+The \strong{plot_confusion_matrix()} function generates confusion matrices from
+classification predictions displaying the contingency table of true class
+labels versus predicted class labels. Visualizes true positives, true
+negatives, false positives, and false negatives for both training and test
+sets, enabling computation of derived performance metrics (sensitivity,
+specificity, precision, F1-score) and identification of specific class pair
+misclassification patterns.
 }
 \examples{
 # Note: For obtaining confusion matrix plot the user needs to
 # complete till fine_tuning( ) function of the MLwrap pipeline and
 # only with categorical outcome.
-
 # See the full pipeline example under plot_calibration_curve()
 # Final call signature:
 # plot_confusion_matrix(wrap_object)
-
 }
 \seealso{
 \code{\link{plot_calibration_curve}}

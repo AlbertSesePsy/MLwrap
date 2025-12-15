@@ -6,7 +6,7 @@ get_predictions_regression <- function(analysis_object, new_data = "test"){
 
   model_workflow <- analysis_object$final_model
 
-  y = all.vars(analysis_object$formula)[1]
+  y = analysis_object$dep_var
 
   if (new_data == "all"){
 
@@ -16,7 +16,7 @@ get_predictions_regression <- function(analysis_object, new_data = "test"){
 
     for (data_set in data_sets){
 
-      dat = analysis_object[[paste0(data_set, "_data")]]
+      dat = analysis_object$data$raw[[paste0(data_set, "_data")]]
 
       predictions = predict(model_workflow, new_data = dat)
       predictions = cbind(predictions, y = dat[[y]])
@@ -29,7 +29,7 @@ get_predictions_regression <- function(analysis_object, new_data = "test"){
 
   } else {
 
-    dat = analysis_object[[paste0(new_data, "_data")]]
+    dat = analysis_object$data$raw[[paste0(new_data, "_data")]]
 
     predictions = predict(model_workflow, new_data = dat)
     predictions = cbind(predictions, y = dat[[y]])

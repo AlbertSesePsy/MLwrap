@@ -12,35 +12,11 @@ AnalysisObject <- R6::R6Class("AnalysisObject",
                                   }
                                 },
 
-                                full_data = function(value) {
+                                data = function(value) {
                                   if (missing(value)) {
-                                    private$.full_data
+                                    private$.data
                                   } else {
-                                    stop("`$full_data` is read only", call. = FALSE)
-                                  }
-                                },
-
-                                train_data = function(value) {
-                                  if (missing(value)) {
-                                    private$.train_data
-                                  } else {
-                                    stop("`$train_data` is read only", call. = FALSE)
-                                  }
-                                },
-
-                                test_data = function(value) {
-                                  if (missing(value)) {
-                                    private$.test_data
-                                  } else {
-                                    stop("`$test_data` is read only", call. = FALSE)
-                                  }
-                                },
-
-                                data_id = function(value){
-                                  if (missing(value)){
-                                    private$.data_id
-                                  } else {
-                                    stop("'$data_id' is read only", call. = FALSE)
+                                    stop("`$data` is read only", call. = FALSE)
                                   }
                                 },
 
@@ -186,16 +162,28 @@ AnalysisObject <- R6::R6Class("AnalysisObject",
                                   } else {
                                     stop("`$best_hyperparameters` is read only", call. = FALSE)
                                   }
+                                },
+
+                                dep_var = function(value){
+                                  if (missing(value)){
+                                    private$.dep_var
+                                  } else {
+                                    stop("`$dep_var` is read only", call. = FALSE)
+                                  }
+                                },
+
+                                feature_names = function(value){
+                                  if (missing(value)){
+                                    private$.feature_names
+                                  } else {
+                                    stop("`$feature_names` is read only", call. = FALSE)
+                                  }
                                 }
 
                               ),
 
                               private = list(
                                 .stage = NULL,
-                                .full_data = NULL,
-                                .train_data = NULL,
-                                .test_data = NULL,
-                                .data_id = NULL,
                                 .transformer = NULL,
                                 .hyperparameters = NULL,
                                 .model = NULL,
@@ -214,6 +202,9 @@ AnalysisObject <- R6::R6Class("AnalysisObject",
                                 .plots = NULL,
                                 .tables = NULL,
                                 .best_hyperparameters = NULL,
+                                .data = NULL,
+                                .dep_var = NULL,
+                                .feature_names = NULL,
 
                                 add_stage = function(stage){
 
@@ -224,24 +215,6 @@ AnalysisObject <- R6::R6Class("AnalysisObject",
                                 add_formula = function(formula){
 
                                   private$.formula <- formula
-
-                                },
-
-                                add_train_data = function(train_data){
-
-                                  private$.train_data <- train_data
-
-                                },
-
-                                add_test_data = function(test_data){
-
-                                  private$.test_data <- test_data
-
-                                },
-
-                                add_data_id = function(data_id){
-
-                                  private$.data_id <- data_id
 
                                 },
 
@@ -347,12 +320,19 @@ AnalysisObject <- R6::R6Class("AnalysisObject",
 
                                 initialize = function(full_data, transformer, task ,formula, outcome_levels){
 
-                                  private$.full_data <- full_data
                                   private$.transformer <- transformer
                                   private$.task <- task
                                   private$.formula <- formula
                                   private$.outcome_levels <- outcome_levels
                                   private$.stage <- "preprocessing"
+
+                                  private$.dep_var <- all.vars(formula)[1]
+
+                                  private$.data <- DataObject$new(full_data, task, y = private$.dep_var)
+
+                                  private$.data$preprocess(transformer)
+
+                                  private$.feature_names <- names(private$.data$transformed$train_data)[which(names(private$.data$transformed$train_data) != private$.dep_var)]
 
                                 },
 
@@ -429,6 +409,63 @@ HyperparametersBase <- R6::R6Class("HyperparametersBase",
                                    )
 )
 
+DataObject <- R6::R6Class("DataObject",
+                       public = list(
+
+                         raw = list(full_data = NULL,
+                                    train_data = NULL,
+                                    test_data = NULL),
+
+                         transformed = list(train_data = NULL,
+                                            test_data = NULL),
+
+                         data_id = list(train_id = NULL,
+                                        test_id = NULL),
+
+                         initialize = function(full_data, task, y = NULL){
+
+                          self$raw$full_data <- full_data
+
+                           if (task == "classification"){
+
+                             train_test_split = rsample::initial_split(self$raw$full_data, prop = 0.75,
+                                                                       strata = !!y)
+
+                           }
+
+                           else {
+
+                             train_test_split = rsample::initial_split(self$raw$full_data, prop = 0.75)
+
+                           }
+
+                           self$raw$train_data <- rsample::training(train_test_split)
+                           self$raw$test_data <- rsample::testing(train_test_split)
+
+                           self$data_id$train_id <- train_test_split$in_id
+                           self$data_id$test_id <- setdiff(1:nrow(self$raw$full_data), self$data_id$train_id)
+
+
+                         },
+
+                         preprocess = function(transformer){
+
+                            train_data <- self$raw$train_data
+                            test_data <- self$raw$test_data
+
+                            rec =  transformer %>%
+                              recipes::prep(training = train_data)
+
+                            self$transformed$train_data = recipes::bake(rec, new_data = train_data)
+                            self$transformed$test_data = recipes::bake(rec, new_data = test_data)
+
+                         }
+
+                         )
+
+
+
+                       )
 
 
 

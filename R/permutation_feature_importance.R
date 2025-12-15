@@ -13,27 +13,27 @@ pfi_plot <- function(tidy_object, new_data = "test", metric = NULL){
 }
 
 
-                                       ###########################
-                                        #     Regression          #
-                                        ###########################
+###########################
+#     Regression          #
+###########################
 
-pfi_calc <- function(model, train, test, y, task, metric, outcome_levels){
+pfi_calc <- function(model, data, y, task, metric, outcome_levels){
 
   if (task == "regression"){
 
-    pfi_results <- pfi_reg(model, test, y, metric)
+    pfi_results <- pfi_reg(model, data, y, metric)
 
   } else {
 
     if (outcome_levels == 2){
 
-      pfi_results <- pfi_bin(model, test, y, metric)
+      pfi_results <- pfi_bin(model, data, y, metric)
 
     }
 
     else{
 
-      pfi_results <- pfi_multiclass(model, test, y, metric)
+      pfi_results <- pfi_multiclass(model, data, y, metric)
 
     }
 
@@ -108,9 +108,9 @@ pfi_reg <- function(model, new_data, y, metric){
 }
 
 
-                                #####################################
-                                #     Binary Classification         #
-                                #####################################
+#####################################
+#     Binary Classification         #
+#####################################
 
 pfi_bin <- function(model, new_data, y, metric){
 
@@ -137,6 +137,7 @@ pfi_bin <- function(model, new_data, y, metric){
 
   # Calculate baseline error using standard evaluation
   if (metrics_info[[metric]][1] == "prob"){
+    metric_func <- get(metric, envir = asNamespace("yardstick"))
     df_baseline <- data.frame(truth = y_true, .pred_1 = predictions_baseline, check.names = FALSE)
     error_baseline <- metric_func(df_baseline, truth = "truth", ".pred_1", event_level = "second")$.estimate
   } else {
@@ -244,6 +245,7 @@ pfi_multiclass <- function(model, new_data, y, metric){
 
     # Calculate baseline error using standard evaluation
     if (metrics_info[[metric]][1] == "prob"){
+      metric_func <- get(metric, envir = asNamespace("yardstick"))
       df_baseline <- data.frame(truth = y_true, .pred_1 = predictions_baseline, check.names = FALSE)
       error_baseline <- metric_func(df_baseline, truth = "truth", ".pred_1", event_level = "second")$.estimate
     } else {

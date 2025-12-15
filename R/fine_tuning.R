@@ -132,11 +132,9 @@ fine_tuning <- function(analysis_object, tuner, metrics = NULL){
 
   set_metrics <- create_metric_set(analysis_object$metrics)
 
-  split_final_data <- split_data(analysis_object)
+  sampling_method <- rsample::vfold_cv(analysis_object$data$raw$train_data, v = 5)
 
-  sampling_method = split_final_data$sampling_method
-
-  final_data = split_final_data$final_split
+  final_data <- analysis_object$data$raw$train_data
 
   if (analysis_object$hyperparameters$tuning == TRUE){
 

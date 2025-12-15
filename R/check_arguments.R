@@ -223,7 +223,8 @@ check_args_sensitivity_analysis <- function(analysis_object, methods, metric){
 
   ## Check methods
 
-  check_args_list(arg = methods, arg_list = c("PFI", "SHAP", "Integrated Gradients", "Olden" ,"Sobol_Jansen"),
+  check_args_list(arg = methods, arg_list = c("PFI", "SHAP", "Integrated Gradients", "Olden" ,"Sobol_Jansen",
+                                              "Friedman H-stat"),
                   arg_name = "methods", null_valid = F)
 
   if (!(analysis_object$model_name == "Neural Network") && (any(c("Integrated Gradients","Olden") %in% methods))){

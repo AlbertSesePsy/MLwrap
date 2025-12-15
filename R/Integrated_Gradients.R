@@ -1,4 +1,10 @@
-IntGrad_calc <- function(model, train, test, y, task, outcome_levels){
+IntGrad_calc <- function(model, train, test, y, task, outcome_levels, use_test = FALSE){
+
+  if (!use_test){
+
+    test <- train
+
+  }
 
   test <- test[which(names(test) != y)]
 

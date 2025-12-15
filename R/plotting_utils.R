@@ -564,9 +564,7 @@ plot_pfi <- function(analysis_object, show_table = FALSE){
 
   }
 
-  pfi_plots   <- plots[pfi_names]
-
-  combined <- patchwork::wrap_plots(pfi_plots)
+  pfi_plot <- plots[["PFI_barplot"]]
 
   if (base::interactive()){
 
@@ -576,7 +574,7 @@ plot_pfi <- function(analysis_object, show_table = FALSE){
 
     }
 
-    plot(combined)
+    plot(pfi_plot)
 
   }
 
@@ -623,26 +621,13 @@ plot_shap <- function(analysis_object, show_table = FALSE){
 
   }
 
-  mean_shap_names <- grep("barplot$", shap_names, value = TRUE)
+  mean_shap_plots <- plots[["SHAP_barplot"]]
 
-  dir_shap_names <- grep("directional$", shap_names, value = TRUE)
+  dir_shap_plots <- plots[["SHAP_directional"]]
 
-  box_shap_names <- grep("boxplot$", shap_names, value = TRUE)
+  box_shap_plots <- plots[["SHAP_boxplot"]]
 
-  swarm_shap_names <- grep("swarmplot$", shap_names, value = TRUE)
-
-  mean_shap_plots <- plots[mean_shap_names]
-
-  dir_shap_plots <- plots[dir_shap_names]
-
-  box_shap_plots <- plots[box_shap_names]
-
-  swarm_shap_plots <- plots[swarm_shap_names]
-
-  combined_mean <- patchwork::wrap_plots(mean_shap_plots)
-  combined_dir <- patchwork::wrap_plots(dir_shap_plots)
-  combined_box <- patchwork::wrap_plots(box_shap_plots)
-  combined_swarm <- patchwork::wrap_plots(swarm_shap_plots)
+  swarm_shap_plots <- plots[["SHAP_swarmplot"]]
 
   if (base::interactive()){
 
@@ -652,10 +637,10 @@ plot_shap <- function(analysis_object, show_table = FALSE){
 
     }
 
-    plot(combined_mean)
-    plot(combined_dir)
-    plot(combined_box)
-    plot(combined_swarm)
+    plot(mean_shap_plots)
+    plot(dir_shap_plots)
+    plot(box_shap_plots)
+    plot(swarm_shap_plots)
 
     }
 
@@ -703,26 +688,13 @@ plot_integrated_gradients <- function(analysis_object, show_table = FALSE){
 
   }
 
-  mean_ig_names <- grep("barplot$", ig_names, value = TRUE)
+  mean_ig_plots <- plots[["IntegratedGradients_barplot"]]
 
-  dir_ig_names <- grep("directional$", ig_names, value = TRUE)
+  dir_ig_plots <- plots[["IntegratedGradients_directional"]]
 
-  box_ig_names <- grep("boxplot$", ig_names, value = TRUE)
+  box_ig_plots <- plots[["IntegratedGradients_boxplot"]]
 
-  swarm_ig_names <- grep("swarmplot$", ig_names, value = TRUE)
-
-  mean_ig_plots <- plots[mean_ig_names]
-
-  dir_ig_plots <- plots[dir_ig_names]
-
-  box_ig_plots <- plots[box_ig_names]
-
-  swarm_ig_plots <- plots[swarm_ig_names]
-
-  combined_mean <- patchwork::wrap_plots(mean_ig_plots)
-  combined_dir <- patchwork::wrap_plots(dir_ig_plots)
-  combined_box <- patchwork::wrap_plots(box_ig_plots)
-  combined_swarm <- patchwork::wrap_plots(swarm_ig_plots)
+  swarm_ig_plots <- plots[["IntegratedGradients_swarmplot"]]
 
   if (base::interactive()){
 
@@ -732,10 +704,10 @@ plot_integrated_gradients <- function(analysis_object, show_table = FALSE){
 
     }
 
-    plot(combined_mean)
-    plot(combined_dir)
-    plot(combined_box)
-    plot(combined_swarm)
+    plot(mean_ig_plots)
+    plot(dir_ig_plots)
+    plot(box_ig_plots)
+    plot(swarm_ig_plots)
 
   }
 
@@ -779,9 +751,9 @@ plot_olden <- function(analysis_object, show_table = FALSE){
 
   }
 
-  olden_plots <- plots[olden_names]
+  olden_plots <- plots[[olden_names]]
 
-  combined <- patchwork::wrap_plots(olden_plots)
+  #combined <- patchwork::wrap_plots(olden_plots)
 
   if (base::interactive()){
 
@@ -791,7 +763,7 @@ plot_olden <- function(analysis_object, show_table = FALSE){
 
     }
 
-    plot(combined)
+    plot(olden_plots)
 
   }
 
@@ -848,4 +820,316 @@ plot_sobol_jansen <- function(analysis_object, show_table = FALSE){
 
   invisible(analysis_object)
 
+}
+
+#' Plot Partial Dependence (PDP)
+#'
+#' @description
+#' The **plot_pdp()** function computes and visualizes
+#' **Partial Dependence Plots (PDP)** for a selected feature, following the
+#' methodology described in *Interpretable Machine Learning* by Christoph Molnar.
+#' PDPs show the average effect of a feature on model predictions by
+#' marginalizing over the distribution of all other features. Optionally,
+#' Individual Conditional Expectation (ICE) curves can be added to visualize
+#' heterogeneous effects.
+#' @param analysis_object A fitted `wrap_object` with model results or
+#' previously computed PDP values.
+#' @param feature Character. The continuous feature for which the PDP should be
+#' computed.
+#' @param group_by Optional character. A variable used to produce grouped PDP
+#' curves.
+#' @param grid_size Integer. Number of points used to evaluate the PDP
+#' (default = 25).
+#' @param show_ice Logical. Whether to overlay ICE curves (default = TRUE).
+#' @param ice_n Integer. Number of ICE curves to sample if `show_ice = TRUE`
+#' (default = 50).
+#' @param pdp_line_size Numeric. Line width for the PDP curve (default = 1.1).
+#' @param use_test Logical. Compute PDP using the test set instead of the
+#' training set (default = FALSE).
+#' @param plot Logical. If TRUE, prints the PDP plot and returns `wrap_object`;
+#' if FALSE, returns the ggplot object without modifying the object.
+#' @returns
+#' If `plot = TRUE`, returns the updated `wrap_object` and prints the PDP plot.
+#' If `plot = FALSE`, returns a ggplot object containing the PDP
+#' (and optionally ICE) visualization.
+#' @examples
+#' # After fitting model with fine_tuning(wrap_object):
+#' # plot_pdp(wrap_object, feature = "age")
+#' @seealso \code{\link{sensitivity_analysis}}
+#' @references
+#' Molnar, C. (2022). *Interpretable Machine Learning*.\cr
+#' \url{https://christophm.github.io/interpretable-ml-book/}
+#' @export
+plot_pdp <- function(analysis_object, feature,
+                                         group_by = NULL,
+                                         grid_size = 25,
+                                         show_ice = TRUE, ice_n = 50,
+                                         pdp_line_size = 1.1,
+                                         use_test = FALSE,
+                                         plot = TRUE){
+
+  model <- analysis_object$final_model
+  if (use_test){
+
+    data <- analysis_object$data$raw$test_data
+
+  } else {
+
+    data <- analysis_object$data$raw$train_data
+
+  }
+  task <- analysis_object$task
+  outcome_levels <- analysis_object$outcome_levels
+
+  # 1) Full ICE (no sampling) using your ice_data() with trimmed grid
+  ice_full <- ice_data(
+    model = model,
+    data = data,
+    task = task,
+    outcome_levels = outcome_levels,
+    feature   = feature,
+    grid_size = grid_size,
+    group_by  = group_by
+  )
+
+  # 2) PDP from full ICE
+  if ("pred_class" %in% names(ice_full)) {
+    # Multiclass: group by class
+    if (is.null(group_by)) {
+      pdp_df <- ice_full %>%
+        dplyr::group_by(pred_class, feature_value) %>%
+        dplyr::summarise(prediction = mean(prediction, na.rm = TRUE), .groups = "drop")
+    } else {
+      pdp_df <- ice_full %>%
+        dplyr::group_by(pred_class, .data[[group_by]], feature_value) %>%
+        dplyr::summarise(prediction = mean(prediction, na.rm = TRUE), .groups = "drop")
+    }
+  } else {
+    # Regression or binary classification
+    if (is.null(group_by)) {
+      pdp_df <- ice_full %>%
+        dplyr::group_by(feature_value) %>%
+        dplyr::summarise(prediction = mean(prediction, na.rm = TRUE), .groups = "drop")
+    } else {
+      pdp_df <- ice_full %>%
+        dplyr::group_by(.data[[group_by]], feature_value) %>%
+        dplyr::summarise(prediction = mean(prediction, na.rm = TRUE), .groups = "drop")
+    }
+  }
+
+  # 3) If plotting ICE, sample IDs from the full ICE (same dataframe)
+  if (isTRUE(show_ice)) {
+    sampled_ids <- sample(unique(ice_full$id), size = min(ice_n, length(unique(ice_full$id))))
+    ice_plot <- ice_full[ice_full$id %in% sampled_ids, , drop = FALSE]
+  }
+
+  # Multiclass PDP + ICE facet version
+  if ("pred_class" %in% names(ice_full)) {
+    p <- ggplot2::ggplot()
+
+    if (isTRUE(show_ice)) {
+      p <- p +
+        ggplot2::geom_line(data = ice_plot,
+                           ggplot2::aes(x = feature_value, y = prediction,
+                                        group = interaction(id, pred_class),
+                                        color = if (!is.null(group_by)) .data[[group_by]] else "dodgerblue2"),
+                           alpha = 0.3, linewidth = 0.4)
+    }
+
+    p <- p +
+      ggplot2::geom_line(data = pdp_df,
+                         ggplot2::aes(x = feature_value, y = prediction,
+                                      color = if (!is.null(group_by)) .data[[group_by]] else "dodgerblue2"),
+                         linewidth = pdp_line_size) +
+      ggplot2::facet_wrap(~ pred_class) +
+      ggplot2::scale_color_viridis_d(option = "plasma", begin = 0.1, end = 0.9) +
+      ggplot2::labs(
+        title = if (is.null(group_by)) glue::glue("PD Plot {feature}") else glue::glue("PD Plot {feature} by {group_by}"),
+        x = feature, y = "Predicted probability",
+        color = if (!is.null(group_by)) group_by else NULL
+      ) +
+      ggplot2::theme_gray()
+
+    if (is.null(group_by)) {
+      p <- p + ggplot2::guides(color = "none")
+    }
+
+  } else {
+    # Regression or binary
+    p <- ggplot2::ggplot()
+
+    if (isTRUE(show_ice)) {
+      p <- p +
+        ggplot2::geom_line(data = ice_plot,
+                           ggplot2::aes(x = feature_value, y = prediction, group = id,
+                                        color = if (!is.null(group_by)) .data[[group_by]] else NULL),
+                           alpha = 0.3, linewidth = 0.4
+        )
+    }
+
+    p <- p +
+      ggplot2::geom_line(data = pdp_df,
+                         ggplot2::aes(x = feature_value, y = prediction,
+                                      color = if (!is.null(group_by)) .data[[group_by]] else NULL),
+                         linewidth = pdp_line_size) +
+      ggplot2::scale_color_viridis_d(option = "plasma", begin = 0.1, end = 0.9) +
+      ggplot2::labs(
+        title = if (is.null(group_by)) glue::glue("PD Plot {feature}") else glue::glue("PD Plot {feature} by {group_by}"),
+        x = feature, y = "Prediction",
+        color = group_by
+      ) +
+      ggplot2::theme_gray()
+  }
+
+  x_data <- data[[feature]]
+
+  p <- p + ggplot2::geom_rug(
+    data = data.frame(x = x_data),
+    ggplot2::aes(x = x),
+    sides = "b",
+    inherit.aes = FALSE,
+    alpha = 1
+  )
+
+  if (use_test){
+
+    p$labels$title <- paste0(p$labels$title, " (Test Data)")
+
+  } else {
+
+    p$labels$title <- paste0(p$labels$title, " (Train Data)")
+
+  }
+
+  if (plot){
+
+    plot(p)
+
+    invisible(analysis_object)
+
+  } else{
+
+    return(p)
+
+  }
+}
+
+#' Plot Accumulated Local Effects (ALE)
+#'
+#' @description
+#' The **plot_ale()** function computes and visualizes
+#' **Accumulated Local Effects (ALE)** for a selected feature, following the
+#' approach described in *Interpretable Machine Learning* by Christoph Molnar.
+#' ALE plots quantify how changes in a feature locally influence model
+#' predictions, offering a robust alternative to Partial Dependence Plots (PDP)
+#' by avoiding extrapolation and handling correlated predictors more reliably.
+#' @param analysis_object A fitted `wrap_object` with model results or
+#' previously computed ALE values.
+#' @param feature Character. Name of the continuous feature for which ALE
+#' should be computed.
+#' @param group Optional character. A grouping variable to compute grouped ALE
+#' curves.
+#' @param grid.size Integer. Number of intervals to partition the feature domain
+#' (default = 20).
+#' @param use_test Logical. If TRUE, ALE is computed using the test set
+#' (default = FALSE).
+#' @param plot Logical. If TRUE, displays the ALE plot and returns `wrap_object`;
+#' if FALSE, returns the ggplot object without modifying the object.
+#' @returns
+#' If `plot = TRUE`, returns the updated `wrap_object` and prints the ALE plot.
+#' If `plot = FALSE`, returns a ggplot object containing the ALE visualization.
+#' @examples
+#' # After fitting a model with fine_tuning(wrap_object):
+#' # plot_ale(wrap_object, feature = "age")
+#' @seealso \code{\link{sensitivity_analysis}}
+#' @references
+#' Molnar, C. (2022). *Interpretable Machine Learning*.\cr
+#' \url{https://christophm.github.io/interpretable-ml-book/}
+#' @export
+plot_ale <- function(analysis_object,feature,
+                          group = NULL, grid.size = 20,
+                          use_test = FALSE,
+                          plot = TRUE) {
+
+  task            <- analysis_object$task
+  outcome_levels  <- analysis_object$outcome_levels
+
+  if (use_test){
+
+    train <- analysis_object$data$raw$test_data
+
+  } else {
+
+    train <- analysis_object$data$raw$train_data
+
+  }
+
+  model           <- analysis_object$final_model
+
+  ale_long <- comp_ale(model, train, feature, group = group, task = task,
+                       outcome_levels = outcome_levels, K = grid.size)
+
+  # Group
+
+  if (is.null(group)) {
+
+    p <- ggplot2::ggplot(ale_long,
+                         ggplot2::aes(x = grid, y = ale)) +
+      ggplot2::geom_line(linewidth = 1) +
+      ggplot2::geom_point(size = 2)
+
+  } else {
+
+    p <- ggplot2::ggplot(ale_long,
+                         ggplot2::aes(x = grid, y = ale, color = Level)) +
+      ggplot2::geom_line(linewidth = 1) +
+      ggplot2::geom_point(size = 2)
+  }
+
+  # Facet wrap
+
+  if (outcome_levels > 2) {
+    p <- p + ggplot2::facet_wrap(~ Class)
+  }
+
+  # Add rug
+
+  x_data <- train[[feature]]
+  p <- p + ggplot2::geom_rug(
+    data = data.frame(x = x_data),
+    ggplot2::aes(x = x),
+    sides = "b",
+    inherit.aes = FALSE,
+    alpha = 1
+  ) +
+    ggplot2::scale_color_viridis_d(option = "plasma", begin = 0.1, end = 0.9) +
+    ggplot2::labs(
+      x = feature,
+      y = "ALE",
+      title = paste("ALE Plot of", feature,
+                    if (!is.null(group)) paste("grouped by", group))
+    ) +
+    ggplot2::theme_gray()
+
+  if (use_test){
+
+    p$labels$title <- paste0(p$labels$title, " (Test Data)")
+
+  } else {
+
+    p$labels$title <- paste0(p$labels$title, " (Train Data)")
+
+  }
+
+  if (plot){
+
+    plot(p)
+
+    invisible(analysis_object)
+
+  } else{
+
+    return(p)
+
+  }
 }

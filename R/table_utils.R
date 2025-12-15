@@ -171,14 +171,22 @@ table_evaluation_results <- function(analysis_object, show_table = FALSE){
 #' @returns Tibble or list of tibbles (multiclass classification) with PFI
 #' results.
 #' @examples
-#' # Note: For obtaining the table with PFI method results the user needs
-#' # to complete till sensitivity_analysis() function of the
-#' # MLwrap pipeline using the PFI method.
-#' # See the full pipeline example under sensitivity_analysis
-#' # (Requires sensitivity_analysis(methods = "PFI"))
-#' # Final call signature:
-#' # table_pfi_results(wrap_object)
-#' @seealso \code{\link{sensitivity_analysis}}
+#' # Note: For obtaining the table with PFI method results the user needs to
+#' # complete till sensitivity_analysis() function of the
+#' # MLwrap pipeline using PFI method
+#'
+#' set.seed(123) # For reproducibility
+#' wrap_object <- preprocessing(df = sim_data[1:300 ,],
+#'                              formula = psych_well ~ depression + emot_intel,
+#'                              task = "regression")
+#' wrap_object <- build_model(wrap_object, "Random Forest",
+#'                            hyperparameters = list(mtry = 2, trees = 3))
+#' wrap_object <- fine_tuning(wrap_object, "Grid Search CV")
+#' wrap_object <- sensitivity_analysis(wrap_object, methods = "PFI")
+#'
+#' # And then, you can obtain the PFI results table.
+#'
+#' table_pfi <- table_pfi_results(wrap_object)
 #' @export
 table_pfi_results <- function(analysis_object, show_table = FALSE){
 
@@ -192,7 +200,7 @@ table_pfi_results <- function(analysis_object, show_table = FALSE){
 
   }
 
-  pfi_tables <- tables[pfi_names]
+  pfi_tables <- tables[["PFI"]]
 
   if (base::interactive() && show_table){
 
@@ -202,13 +210,17 @@ table_pfi_results <- function(analysis_object, show_table = FALSE){
 
     if (analysis_object$outcome_levels > 2){
 
-      N <- length(pfi_names)
+      y_classes <- unique(pfi_tables$output_class)
 
-      for (i in 1:N){
+      for (target_class in y_classes){
 
-        cli::cli_h2(sub(".*_", "", pfi_names[[i]]))
+        pfi_target <- pfi_tables %>%
+          dplyr::filter(output_class == target_class) %>%
+          dplyr::select(-output_class)
 
-        print(pfi_tables[[i]])
+        cli::cli_h2(sub(".*_", "", target_class))
+
+        print(pfi_target)
 
         cli::cat_line()
 
@@ -249,22 +261,13 @@ table_pfi_results <- function(analysis_object, show_table = FALSE){
 #' @returns Tibble or list of tibbles (multiclass classification) with SHAP
 #' summarized results.
 #' @examples
-#' # Note: For obtaining the table with SHAP method results the user needs to
-#' # complete till sensitivity_analysis() function of the
-#' # MLwrap pipeline using SHAP method
-#'
-#' set.seed(123) # For reproducibility
-#' wrap_object <- preprocessing(df = sim_data[1:250 ,],
-#'                              formula = psych_well ~ depression + emot_intel,
-#'                              task = "regression")
-#' wrap_object <- build_model(wrap_object, "Random Forest",
-#'                            hyperparameters = list(mtry = 2, trees = 3))
-#' wrap_object <- fine_tuning(wrap_object, "Grid Search CV")
-#' wrap_object <- sensitivity_analysis(wrap_object, methods = "SHAP")
-#'
-#' # And then, you can obtain the SHAP results table.
-#'
-#' table_shap <- table_shap_results(wrap_object)
+#' # Note: For obtaining the table with SHAP method results the user needs
+#' # to complete till sensitivity_analysis() function of the
+#' # MLwrap pipeline using the SHAP method.
+#' # See the full pipeline example under sensitivity_analysis
+#' # (Requires sensitivity_analysis(methods = "SHAP"))
+#' # Final call signature:
+#' # table_shap_results(wrap_object)
 #' @seealso \code{\link{sensitivity_analysis}}
 #' @export
 table_shap_results <- function(analysis_object, show_table = FALSE){
@@ -279,7 +282,7 @@ table_shap_results <- function(analysis_object, show_table = FALSE){
 
   }
 
-  shap_tables <- tables[shap_names]
+  shap_tables <- tables[["SHAP"]]
 
   if (base::interactive() && show_table){
 
@@ -289,13 +292,17 @@ table_shap_results <- function(analysis_object, show_table = FALSE){
 
     if (analysis_object$outcome_levels > 2){
 
-      N <- length(shap_names)
+      y_classes <- unique(shap_tables$output_class)
 
-      for (i in 1:N){
+      for (target_class in y_classes){
 
-        cli::cli_h2(sub(".*_", "", shap_names[[i]]))
+        shap_target <- shap_tables %>%
+          dplyr::filter(output_class == target_class) %>%
+          dplyr::select(-output_class)
 
-        print(shap_tables[[i]])
+        cli::cli_h2(sub(".*_", "", target_class))
+
+        print(shap_target)
 
         cli::cat_line()
 
@@ -354,7 +361,7 @@ table_integrated_gradients_results <- function(analysis_object, show_table = FAL
 
   }
 
-  ig_tables <- tables[ig_names]
+  ig_tables <- tables[["IntegratedGradients"]]
 
   if (base::interactive() && show_table){
 
@@ -364,13 +371,17 @@ table_integrated_gradients_results <- function(analysis_object, show_table = FAL
 
     if (analysis_object$outcome_levels > 2){
 
-      N <- length(ig_names)
+      y_classes <- unique(ig_tables$output_class)
 
-      for (i in 1:N){
+      for (target_class in y_classes){
 
-        cli::cli_h2(sub(".*_", "", ig_names[[i]]))
+        ig_target <- ig_tables %>%
+          dplyr::filter(output_class == target_class) %>%
+          dplyr::select(-output_class)
 
-        print(ig_tables[[i]])
+        cli::cli_h2(sub(".*_", "", target_class))
+
+        print(ig_target)
 
         cli::cat_line()
 
@@ -499,3 +510,140 @@ table_sobol_jansen_results <- function(analysis_object, show_table = FALSE){
   invisible(sobol)
 
 }
+
+#' Friedman's H-Statistic Table
+#'
+#' @description
+#' The **table_h2_total()** function computes the **global Friedman H-statistic**
+#' for each feature, quantifying how much of a variable's predictive contribution
+#' arises from interactions with other features rather than from its individual
+#' main effect. This metric provides a model-agnostic measure of overall
+#' interaction strength, following the formulation presented in
+#' *Interpretable Machine Learning* by Christoph Molnar.
+#'
+#' The resulting table ranks all features by their global H-statistic, helping
+#' identify which predictors participate most in interaction-driven behavior.
+#'
+#' @param analysis_object A fitted `wrap_object` with results from
+#' `sensitivity_analysis(methods = "Friedman H-stat")` or compatible
+#'  internal computations.
+#' @param show_table Logical. If TRUE, prints the table (default = FALSE).
+#'
+#' @returns
+#' A dataframe containing the global H-statistic for each feature.
+#'
+#' @examples
+#' # After running sensitivity_analysis(wrap_object, methods = "Friedman H-stat"):
+#' # table_h2 <- table_h2_total(wrap_object)
+#'
+#' @seealso \code{\link{sensitivity_analysis}}
+#'
+#' @references
+#' Molnar, C. (2022). *Interpretable Machine Learning*.\cr
+#' \url{https://christophm.github.io/interpretable-ml-book/}
+#'
+#' @export
+table_h2_total <- function(analysis_object, show_table = FALSE){
+
+  ### Check_args
+
+  h2_total <- analysis_object$tables$`H^2 Total`
+
+  if (is.null(h2_total)){
+
+    stop("You first need to compute Friedman's H-statistic values using 'sensitivity_analysis()'!")
+
+  }
+
+  if (base::interactive() && show_table){
+
+    cli::cli_h1("Friedman's H-statistic Results")
+
+    print(tibble::as_tibble(h2_total))
+
+    cli::cat_line()
+
+  }
+
+
+  invisible(h2_total)
+
+}
+
+#' Friedman's H-Statistic Pairwise Interaction Table
+#'
+#' @description
+#' The **table_pairwise_interaction()** function computes **pairwise
+#' interaction strengths** between predictors using **Friedman's H-statistic**,
+#' following the formulation described in *Interpretable Machine Learning* by
+#' Christoph Molnar. While the global H-statistic summarizes the overall
+#' interaction strength of each individual feature, this function focuses
+#' specifically on **pairwise feature interactions**, quantifying how strongly
+#' two variables interact in influencing the model's predictions. If
+#' `normalize = TRUE`, interaction scores are returned on a **0–1 scale** for
+#' ease of comparison; if `FALSE`, raw interaction magnitudes are returned.
+#' @param analysis_object A fitted `wrap_object` with results from
+#' `sensitivity_analysis(methods = "Friedman H-stat")` with pairwise
+#' interactions computed internally.
+#' @param show_table Logical. If TRUE, prints the resulting interaction table
+#' to the console (default = FALSE).
+#' @param normalize Logical. If TRUE (default), returns **normalized** pairwise
+#' interaction strengths; if FALSE, returns **raw** interaction values.
+#'
+#' @returns
+#' A tibble containing pairwise interaction strengths between all feature pairs,
+#' in either normalized or raw form depending on the `normalize` argument.
+#'
+#' @examples
+#' # After running:
+#' # wrap_object <- sensitivity_analysis(wrap_object, methods = "Friedman H-stat")
+#' #
+#' # Obtain normalized pairwise interactions:
+#' # table_norm <- table_pairwise_interaction(wrap_object)
+#' #
+#' # Obtain raw interaction strengths:
+#' # table_raw <- table_pairwise_interaction(wrap_object, normalize = FALSE)
+#'
+#' @seealso \code{\link{sensitivity_analysis}},
+#'   \code{\link{table_h2_total}}
+#'
+#' @references
+#' Molnar, C. (2022). *Interpretable Machine Learning*.\cr
+#' \url{https://christophm.github.io/interpretable-ml-book/}
+#'
+#' @export
+table_pairwise_interaction <- function(analysis_object, show_table = FALSE, normalize = TRUE){
+
+  ### Check_args
+
+  if (normalize){
+
+    h2_pair <- analysis_object$tables$`H^2 Pairwise Normalized`
+
+  } else {
+
+    h2_pair <- analysis_object$tables$`H^2 Pairwise Raw`
+
+  }
+
+  if (is.null(h2_pair)){
+
+    stop("You first need to compute Friedman's H-statistic values using 'sensitivity_analysis()'!")
+
+  }
+
+  if (base::interactive() && show_table){
+
+    cli::cli_h1("Friedman's H-statistic Pairwise Interaction")
+
+    print(tibble::as_tibble(h2_pair))
+
+    cli::cat_line()
+
+  }
+
+
+  invisible(h2_pair)
+
+}
+

@@ -6,55 +6,48 @@ create_workflow <- function(analysis_object){
 
   return(workflow)
 }
+metrics_info <- list(
 
-split_data <- function(analysis_object, prop_train = 0.6, prop_val = 0.2){
+  #################
+  #   Regression
+  #################
 
-  model_name = analysis_object$model_name
+  rmse = c("numeric", "minimize"),
+  mae = c("numeric", "minimize"),
+  mpe = c("numeric", "minimize"),
+  mape = c("numeric", "minimize"),
+  ccc = c("numeric", "maximize"),
+  smape = c("numeric", "minimize"),
+  rpiq = c("numeric", "maximize"),
+  rsq = c("numeric", "maximize"),
 
-  y = all.vars(analysis_object$formula)[1]
+  #################
+  #  Classification
+  #################
 
-  tuner = analysis_object$tuner
+  accuracy = c("class", "maximize"),
+  precision = c("class", "maximize"),
+  recall = c("class", "maximize"),
+  bal_accuracy = c("class", "maximize"),
+  specificity = c("class", "maximize"),
+  sensitivity = c("class", "maximize"),
+  kap = c("class", "maximize"),
+  f_meas = c("class", "maximize"),
+  mcc = c("class", "maximize"),
+  j_index = c("class", "maximize"),
+  detection_prevalence = c("class", "maximize"),
 
-    if (analysis_object$task == "classification"){
-
-    train_test_split = rsample::initial_split(analysis_object$full_data, prop = 0.75,
-                                              strata = !!y)
-
-    }
-
-    else {
-
-      train_test_split = rsample::initial_split(analysis_object$full_data, prop = 0.75)
-
-    }
-
-    analysis_object$modify("train_data", rsample::training(train_test_split))
-    analysis_object$modify("test_data", rsample::testing(train_test_split))
-
-    train_data_id <- train_test_split$in_id
-    test_data_id <- setdiff(1:nrow(analysis_object$full_data), train_data_id)
-
-    data_id = list(train_data_id = train_data_id, test_data_id = test_data_id)
-
-    analysis_object$modify("data_id", data_id)
-
-    sampling_method <- rsample::vfold_cv(analysis_object$train_data, v = 5)
-
-    final_split <- analysis_object$train_data
-
-  return(list(sampling_method = sampling_method, final_split = final_split))
-
-}
-
+  roc_auc = c("prob", "maximize"),
+  pr_auc = c("prob", "maximize"),
+  gain_capture = c("prob", "maximize"),
+  brier_class = c("prob", "minimize"),
+  roc_aunp = c("prob", "maximize")
+)
 
 create_metric_set <- function(metrics){
-
   set_metrics <- yardstick::metric_set(!!!rlang::syms(metrics))
-
   return(set_metrics)
-
-}
-
+  }
 
 extract_hyperparams <- function(analysis_object){
 
@@ -120,12 +113,7 @@ check_mtry <- function(analysis_object, hyperparameters){
 
   analysis_object = analysis_object$clone()
 
-  rec =  analysis_object$transformer %>%
-    recipes::prep(training = analysis_object$full_data)
-
-  bake_train = recipes::bake(rec, new_data = analysis_object$full_data)
-
-  n_features = ncol(bake_train) - 1
+  n_features = length(analysis_object$feature_names)
 
   if (!is.null(hyperparameters$hyperparams_constant$mtry)){
 

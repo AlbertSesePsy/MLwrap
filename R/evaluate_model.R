@@ -286,34 +286,6 @@ evaluate_model <- function(analysis_object){
 
 }
 
-
-
-
-modify_datasets <- function(analysis_object){
-
-  rec <- recipes::prep(analysis_object$transformer,
-                       training = analysis_object$train_data,
-                       strings_as_factors = T)
-
-  new_train <- recipes::bake(rec, new_data = analysis_object$train_data)
-  new_test <- recipes::bake(rec, new_data = tidy_object$test_data)
-
-  tidy_object$modify("train_data", new_train)
-  tidy_object$modify("test_data", new_test)
-
-  if (!is.null(tidy_object$validation_data)){
-
-    new_validation <- recipes::bake(rec, new_data = tidy_object$validation_data)
-    tidy_object$modify("validation_data", new_validation)
-
-  }
-
-  print(new_train)
-
-  return(tidy_object)
-
-}
-
 ######################################################
 #         get_predictions                           #
 ######################################################

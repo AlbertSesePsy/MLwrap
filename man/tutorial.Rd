@@ -21,11 +21,11 @@ Databases (KDD) framework.
 \details{
 \strong{Citation}: Jiménez, R., Martínez-García, J., Montaño, J. J., & Sesé, A.
 (2025). \emph{MLwrap: Simplifying Machine Learning workflows in R. PsyarXiv.}
-\doi{10.31234/osf.io/j6m4z_v1}
+\doi{10.31234/osf.io/j6m4z_v2}
 }
 \section{Preprint}{
 
-Available at \doi{10.31234/osf.io/j6m4z_v1}
+Available at \doi{10.31234/osf.io/j6m4z_v2}
 }
 
 \section{Why consult the tutorial}{

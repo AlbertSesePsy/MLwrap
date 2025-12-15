@@ -14,7 +14,7 @@
 #   analysis_object <- build_model(analysis_object = analysis_object,
 #                                model_name = "Neural Network",
 #                                hyperparameters = hyper_nn_tune_list)
-# #
+#
 #   analysis_object <- fine_tuning(analysis_object = analysis_object,
 #                              tuner = "Bayesian Optimization",
 #                              metric = "roc_auc",
@@ -22,7 +22,7 @@
 #
 #   fit <- analysis_object$tuner_fit
 #
-#   expect_equal(length(fit$.iter), 8)
+#   expect_equal(length(fit$.iter), 30)
 #
 #   expect_equal(fit$.predictions[[8]]$hidden_units[1], 9)
 #

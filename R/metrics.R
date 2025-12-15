@@ -50,7 +50,7 @@ create_metric_function <- function(metric_name, metric_info) {
 
    expr_text <- glue::glue("
 
-     {metric_name} <- function(data, truth, estimator = NULL, na_rm = TRUE,...) {{
+     {metric_name} <- function(data, truth,  estimator = NULL, na_rm = TRUE,...) {{
 
 
      yardstick::{metric_type}_metric_summarizer(
@@ -94,29 +94,35 @@ create_metric_function <- function(metric_name, metric_info) {
 
 }
 
-# Función para convertir la función en una métrica de yardstick utilizando las funciones almacenadas en metric_funcs
 convert_to_metric <- function(metrics_info) {
 
-    pkg_env <- getNamespace("MLwrap")
+  pkg_env <- getNamespace("MLwrap")
 
-    lapply(names(metrics_info), function(metric) {
+  lapply(names(metrics_info), function(metric) {
     metric_name <- metric
     metric_info <- metrics_info[[metric]]
     metric_type <- metric_info[1]
     metric_direction <- metric_info[2]
 
-    metric_func <- base::get(metric_name, envir = pkg_env)
+    # Para métricas prob, usar yardstick directamente
+    if (metric_type == "prob") {
 
-    # Convertir la función en una métrica de yardstick usando la función almacenada
-    new_metric <- base::switch(metric_type,
-                         "prob" = yardstick::new_prob_metric(metric_func, metric_direction),
-                         "class" = yardstick::new_class_metric(metric_func, metric_direction),
-                         "numeric" = yardstick::new_numeric_metric(metric_func, metric_direction))
+      # Cargar métricas nativas
+      new_metric <- getExportedValue("yardstick", metric_name)
 
-    # Asignar la nueva métrica al entorno
+    } else {
+      # Obtener la función creada dinámicamente
+      metric_func <- base::get(metric_name, envir = pkg_env)
 
+      # Convertir según tipo
+      new_metric <- base::switch(metric_type,
+                                 "class"   = yardstick::new_class_metric(metric_func, metric_direction),
+                                 "numeric" = yardstick::new_numeric_metric(metric_func, metric_direction)
+      )
+    }
+
+    # Guardar la métrica en el namespace del paquete
     base::assign(metric_name, new_metric, envir = pkg_env)
-
   })
 }
 

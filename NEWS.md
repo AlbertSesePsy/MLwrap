@@ -1,3 +1,13 @@
+# MLwrap 0.3.0
+
+* Depurated bug on classification tasks for Permutation Feature Importance
+  (PFI) estimation
+  
+* Added global and pairwise interaction analysis based on Friedman’s
+  H-statistic, including tables and plots of normalized H2 values to inspect
+  overall and pairwise feature interactions across regression and
+  classification models.
+
 # MLwrap 0.2.3
 
 * Permutation Feature Importance (PFI) now implemented natively in MLwrap,

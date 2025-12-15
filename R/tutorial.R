@@ -9,10 +9,10 @@
 #'
 #' **Citation**: Jiménez, R., Martínez-García, J., Montaño, J. J., & Sesé, A.
 #' (2025). *MLwrap: Simplifying Machine Learning workflows in R. PsyarXiv.*
-#' \doi{10.31234/osf.io/j6m4z_v1}
+#' \doi{10.31234/osf.io/j6m4z_v2}
 #'
 #' @section Preprint:
-#' Available at \doi{10.31234/osf.io/j6m4z_v1}
+#' Available at \doi{10.31234/osf.io/j6m4z_v2}
 #' @section Why consult the tutorial:
 #' While MLwrap provides a streamlined and user-friendly interface for
 #' implementing machine learning workflows, the underlying models represent
@@ -51,6 +51,6 @@
 #' MLwrap_tutorial()
 #'
 MLwrap_tutorial <- function() {
-  "https://doi.org/10.31234/osf.io/j6m4z_v1"
+  "https://doi.org/10.31234/osf.io/j6m4z_v2"
 }
 

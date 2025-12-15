@@ -28,5 +28,9 @@ utils::globalVariables(c(
   "type", "density", "se", "S1", "ST", "prob_pred", "prob_observed",
   "truth", "estimate", "prob_estimate", "search_res", "sym",
   "tidy_object", "all_of", ".pred_class", "importance", "Variable", "StDev", "val_color", "iter",
-  "Feature"
+  "Feature",
+  "row_id", "imp_value", "order_val", "feature_value", "prediction",
+  "id", "pred_class", "H2", ".data", "Feature_ord", "grid", "ale",
+  "Level", "Mean_Abs_Importance", "output_class", "Directional_Importance",
+  "label_pos", "vjust_pos"
 ))
